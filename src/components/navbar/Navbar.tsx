@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useI18n } from "@/lib/i18n";
 
 export default function Navbar() {
@@ -9,8 +10,14 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold tracking-tight text-gray-900">
-          FC
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/Fran.png"
+            alt="Francisco Caparruvá"
+            width={70}
+            height={70}
+            className="rounded-full object-cover"
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">

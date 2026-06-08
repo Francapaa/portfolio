@@ -3,9 +3,9 @@
 import { useI18n } from "@/lib/i18n";
 
 const skillsData = {
-  programmingLanguages: ["TypeScript", "Go", "Python"],
+  programmingLanguages: ["TypeScript", "Go", "Python", "C++"],
   database: ["PostgreSQL", "MongoDB", "Redis"],
-  technologies: ["Celery", "React", "NextJS", "FastAPI", "Gin", "NodeJS", "LangGraph"],
+  technologies: ["Celery", "React", "NextJS", "FastAPI", "Gin", "NodeJS", "LangGraph", "AWS", "Vercel"],
   testing: ["Vitest", "Playwright"],
 };
 

@@ -26,11 +26,9 @@ export const content = {
     skills: {
       title: "Habilidades",
       categories: {
-        frontend: "Frontend",
-        backend: "Backend",
+        programmingLanguages:"Lenguajes de programacion",
         database: "Bases de Datos",
-        ai: "IA / ML",
-        devops: "DevOps",
+        technologies: "Tecnologias",
         testing: "Testing",
       },
     },
@@ -39,6 +37,7 @@ export const content = {
       items: [
         {
           name: "RateYourProject",
+          url: "https://github.com/francapaa/rateyourproject",
           description:
             "Plataforma que analiza tu codebase completo (vía upload de .ZIP) y te dice si tus proyectos son suficientemente fuertes para ser contratado, adaptado por rol objetivo y nivel de seniority.",
           highlights: [
@@ -49,6 +48,7 @@ export const content = {
         },
         {
           name: "Multi-Agents Data Ops",
+          url: "https://github.com/francapaa/multi-agents-data-ops",
           description:
             "Plataforma DataOps impulsada por IA que transforma PRDs en contenido técnico estructurado a través de un workflow multi-agente.",
           highlights: [
@@ -125,6 +125,7 @@ export const content = {
       items: [
         {
           name: "RateYourProject",
+          url: "https://github.com/francapaa/rateyourproject",
           description:
             "A platform that analyzes your entire codebase (via .ZIP upload) and tells you whether your projects are strong enough to get hired, adapted by target role and seniority level.",
           highlights: [
@@ -135,6 +136,7 @@ export const content = {
         },
         {
           name: "Multi-Agents Data Ops",
+          url: "https://github.com/francapaa/multi-agents-data-ops",
           description:
             "An AI-driven DataOps platform that transforms Product Requirements Documents (PRDs) into structured technical content through a multi-agent workflow.",
           highlights: [

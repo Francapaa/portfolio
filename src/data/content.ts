@@ -114,11 +114,9 @@ export const content = {
     skills: {
       title: "Skills",
       categories: {
-        frontend: "Frontend",
-        backend: "Backend",
+        programmingLanguages: "programmingLanguages",
         database: "Databases",
-        ai: "AI / ML",
-        devops: "DevOps",
+        technologies: "technologies",
         testing: "Testing",
       },
     },

@@ -46,7 +46,7 @@ const fragmentShader = `
     vec2 uv = vUv;
     float aspect = resolution.x / resolution.y;
     vec2 pos = (uv - 0.5) * vec2(aspect, 1.0);
-    float t = time * 0.05;
+    float t = time * 0.3;
 
     vec3 celeste = vec3(0.459, 0.678, 0.961);
     vec3 white = vec3(1.0, 1.0, 1.0);
@@ -54,9 +54,9 @@ const fragmentShader = `
 
     float bandMask = smoothstep(0.15, 0.35, uv.y) * (1.0 - smoothstep(0.65, 0.85, uv.y));
 
-    float n1 = fbm(pos * 1.4 + vec2(t * 0.35, t * 0.06));
-    float n2 = fbm(pos * 2.8 + vec2(t * 0.55, -t * 0.12) + 4.0);
-    float n3 = fbm(pos * 0.7 + vec2(t * 0.12, 0.0) + 1.5);
+    float n1 = fbm(uv * 3.0 + vec2(t, t * 0.05));
+    float n2 = fbm(uv * 5.5 + vec2(t * 0.6, -t * 0.03) + 4.0);
+    float n3 = fbm(uv * 1.8 + vec2(t * 0.1, t * 0.01) + 1.5);
 
     float cloudShape = n1 * 0.55 + n2 * 0.45;
     float cloud = smoothstep(0.32, 0.68, cloudShape);
@@ -64,8 +64,8 @@ const fragmentShader = `
 
     float cloudEdge = smoothstep(0.28, 0.35, cloudShape) * (1.0 - smoothstep(0.65, 0.72, cloudShape));
 
-    float wispy1 = fbm(pos * 3.5 + vec2(t * 0.7, t * 0.2) + 8.0);
-    float wispy2 = fbm(pos * 5.0 + vec2(-t * 0.4, t * 0.35) + 12.0);
+    float wispy1 = fbm(uv * 7.0 + vec2(t * 0.8, t * 0.08) + 8.0);
+    float wispy2 = fbm(uv * 10.0 + vec2(t * 0.5, t * 0.05) + 12.0);
     float wispyMask = smoothstep(0.35, 0.6, wispy1) * 0.4 + smoothstep(0.4, 0.65, wispy2) * 0.3;
     cloud = clamp(cloud + wispyMask * cloudEdge, 0.0, 1.0);
 

@@ -32,7 +32,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-900">
           &copy; {new Date().getFullYear()} Francisco Caparruva
         </p>
         <div className="flex items-center gap-4">
@@ -40,7 +40,7 @@ export default function Footer() {
             href="https://github.com/Francapaa"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-gray-900 "
             aria-label="GitHub"
           >
             <GitHubIcon />
@@ -49,14 +49,14 @@ export default function Footer() {
             href="https://www.linkedin.com/in/francisco-caparruva-6711a82a2/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-gray-900 "
             aria-label="LinkedIn"
           >
             <LinkedInIcon />
           </a>
           <a
             href="mailto:franciscocaparruva@gmail.com"
-            className="text-gray-500 hover:text-gray-900 transition-colors"
+            className="text-gray-900 "
             aria-label="Email"
           >
             <MailIcon />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import * as THREE from "three";
 
 const vertexShader = `
@@ -34,9 +34,9 @@ const fragmentShader = `
     float v = 0.0;
     float a = 0.5;
     float f = 1.0;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 5; i++) {
       v += a * noise(p * f);
-      f *= 2.1;
+      f *= 2.2;
       a *= 0.5;
     }
     return v;
@@ -46,51 +46,55 @@ const fragmentShader = `
     vec2 uv = vUv;
     float aspect = resolution.x / resolution.y;
     vec2 pos = (uv - 0.5) * vec2(aspect, 1.0);
-    float t = time * 0.06;
+    float t = time * 0.05;
 
-    vec3 skyTop = vec3(0.459, 0.678, 0.961);
-    vec3 skyBottom = vec3(0.85, 0.92, 1.0);
-    vec3 cloudColor = vec3(1.0, 1.0, 1.0);
-    vec3 cloudShadow = vec3(0.75, 0.82, 0.92);
+    vec3 celeste = vec3(0.459, 0.678, 0.961);
+    vec3 white = vec3(1.0, 1.0, 1.0);
+    vec3 cloudShadow = vec3(0.78, 0.85, 0.93);
 
-    vec3 color = mix(skyBottom, skyTop, smoothstep(-0.3, 0.6, uv.y));
+    float bandMask = smoothstep(0.15, 0.35, uv.y) * (1.0 - smoothstep(0.65, 0.85, uv.y));
 
-    float cloudBase = fbm(pos * 1.5 + vec2(t * 0.4, t * 0.1));
-    float cloudDetail = fbm(pos * 3.0 + vec2(t * 0.6, -t * 0.2) + 5.0);
-    float cloudMask = fbm(pos * 0.8 + vec2(t * 0.15, 0.0));
+    float n1 = fbm(pos * 1.4 + vec2(t * 0.35, t * 0.06));
+    float n2 = fbm(pos * 2.8 + vec2(t * 0.55, -t * 0.12) + 4.0);
+    float n3 = fbm(pos * 0.7 + vec2(t * 0.12, 0.0) + 1.5);
 
-    float cloud = smoothstep(0.35, 0.75, cloudBase * 0.6 + cloudDetail * 0.4);
-    cloud *= smoothstep(0.2, 0.6, cloudMask);
+    float cloudShape = n1 * 0.55 + n2 * 0.45;
+    float cloud = smoothstep(0.32, 0.68, cloudShape);
+    cloud *= smoothstep(0.15, 0.5, n3);
 
-    float cloudShadow2 = smoothstep(0.3, 0.7, cloudBase * 0.5 + cloudDetail * 0.3);
-    vec3 finalCloud = mix(cloudShadow, cloudColor, cloud);
+    float cloudEdge = smoothstep(0.28, 0.35, cloudShape) * (1.0 - smoothstep(0.65, 0.72, cloudShape));
 
-    color = mix(color, finalCloud, cloud * 0.85);
+    float wispy1 = fbm(pos * 3.5 + vec2(t * 0.7, t * 0.2) + 8.0);
+    float wispy2 = fbm(pos * 5.0 + vec2(-t * 0.4, t * 0.35) + 12.0);
+    float wispyMask = smoothstep(0.35, 0.6, wispy1) * 0.4 + smoothstep(0.4, 0.65, wispy2) * 0.3;
+    cloud = clamp(cloud + wispyMask * cloudEdge, 0.0, 1.0);
 
-    float wispy = fbm(pos * 4.0 + vec2(t * 0.8, t * 0.3));
-    float wispyMask = smoothstep(0.45, 0.7, wispy) * cloud;
-    color = mix(color, cloudColor * 0.95, wispyMask * 0.3);
+    cloud *= bandMask;
 
-    float sunDist = length(pos - vec2(0.0, 0.05));
-    float sunCore = smoothstep(0.12, 0.08, sunDist);
+    vec3 color = celeste;
+
+    vec3 finalCloud = mix(cloudShadow, white, cloud);
+    color = mix(color, finalCloud, cloud * 0.95);
+
+    float sunDist = length(pos);
+    float sunCore = smoothstep(0.13, 0.07, sunDist);
     float sunGlow = smoothstep(0.35, 0.0, sunDist);
     float sunHalo = smoothstep(0.6, 0.0, sunDist);
 
-    vec3 sunCoreColor = vec3(1.0, 0.92, 0.3);
-    vec3 sunGlowColor = vec3(1.0, 0.85, 0.4);
-    vec3 sunHaloColor = vec3(1.0, 0.9, 0.6);
+    vec3 sunCoreColor = vec3(1.0, 0.9, 0.25);
+    vec3 sunGlowColor = vec3(1.0, 0.82, 0.35);
+    vec3 sunHaloColor = vec3(1.0, 0.9, 0.55);
 
-    color += sunHaloColor * sunHalo * 0.15;
-    color += sunGlowColor * sunGlow * 0.3;
-    color += sunCoreColor * sunCore * 0.8;
+    color += sunHaloColor * sunHalo * 0.1;
+    color += sunGlowColor * sunGlow * 0.22;
+    color += sunCoreColor * sunCore * 0.9;
 
     float cloudLit = cloud * sunGlow;
-    color += sunGlowColor * cloudLit * 0.2;
+    color += sunGlowColor * cloudLit * 0.15;
 
-    float vignette = 1.0 - length(pos) * length(pos) * 0.4;
+    float vignette = 1.0 - dot(pos, pos) * 0.28;
     color *= clamp(vignette, 0.0, 1.0);
 
-    color = pow(color, vec3(0.95));
     gl_FragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
   }
 `;
@@ -133,6 +137,7 @@ export default function ArgentinaSky() {
     scene.add(mesh);
 
     let prevTime = performance.now();
+    let animId = 0;
 
     function animate() {
       const now = performance.now();
@@ -141,10 +146,10 @@ export default function ArgentinaSky() {
       uniforms.time.value += dt;
 
       renderer.render(scene, camera);
-      stateRef.current!.animId = requestAnimationFrame(animate);
+      animId = requestAnimationFrame(animate);
     }
 
-    stateRef.current = { scene, camera, renderer, uniforms, animId: 0 };
+    stateRef.current = { scene, camera, renderer, uniforms, animId };
     animate();
 
     function onResize() {
@@ -155,9 +160,11 @@ export default function ArgentinaSky() {
 
     return () => {
       window.removeEventListener("resize", onResize);
-      cancelAnimationFrame(stateRef.current!.animId);
+      cancelAnimationFrame(animId);
       renderer.dispose();
-      containerRef.current?.removeChild(renderer.domElement);
+      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
@@ -165,7 +172,7 @@ export default function ArgentinaSky() {
     <div
       ref={containerRef}
       className="fixed inset-0 -z-10"
-      style={{ background: "linear-gradient(180deg, #75AADB 0%, #dce8f5 100%)" }}
+      style={{ background: "#75AADB" }}
     />
   );
 }

@@ -30,7 +30,7 @@ export default function Footer() {
   const { t } = useI18n();
 
   return (
-    <footer className="relative z-10 border-t border-black/5 bg-white/70 backdrop-blur-md">
+    <footer className="relative z-10 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-sm text-gray-500">
           &copy; {new Date().getFullYear()} Francisco Caparruva

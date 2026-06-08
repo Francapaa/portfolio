@@ -7,7 +7,7 @@ export default function Navbar() {
   const { lang, t, toggleLang } = useI18n();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/70 border-b border-black/5">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="text-lg font-bold tracking-tight text-gray-900">
           FC

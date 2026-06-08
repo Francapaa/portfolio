@@ -55,7 +55,7 @@ export default function Footer() {
             <LinkedInIcon />
           </a>
           <a
-            href="mailto:franciscocaparruva@gmail.com"
+            href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWrRnZMwTPRcBrPFFmZXDmBKFWbnlrZXcZlBNhXnQjbNxbWFJkRqHdNcwTVGPCkFPFzRBwMVV"
             className="text-gray-900 "
             aria-label="Email"
           >

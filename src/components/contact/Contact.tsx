@@ -16,7 +16,7 @@ export default function Contact() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a
-            href="mailto:franciscocaparruva@gmail.com"
+            href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWrRnZMwTPRcBrPFFmZXDmBKFWbnlrZXcZlBNhXnQjbNxbWFJkRqHdNcwTVGPCkFPFzRBwMVV"
             className="px-8 py-3 rounded-full bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors"
           >
             {t.contact.email}

@@ -13,7 +13,8 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/Fran.png"
-            alt="Francisco Caparruvá"
+            alt="Francisco Caparruva"
+            loading="eager"
             width={70}
             height={70}
             className="rounded-full object-cover"

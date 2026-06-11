@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useI18n } from "@/lib/i18n";
+import GithubContribution from "../github/contributions";
 
 export default function About() {
   const { t } = useI18n();
@@ -11,6 +12,7 @@ export default function About() {
       <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <Image
           src="/Fran.png"
+          loading="eager"
           alt="Francisco Caparruvá"
           width={280}
           height={280}
@@ -29,6 +31,7 @@ export default function About() {
           >
             {t.about.description}
           </p>
+          <GithubContribution/>
         </div>
       </div>
     </section>

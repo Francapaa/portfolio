@@ -47,22 +47,43 @@ export const content = {
           tech: ["Next.js", "TypeScript", "Go", "PostgreSQL", "Gemini API"],
         },
         {
-          name: "Multi-Agents Data Ops",
+          name: "PRD2Blog",
           url: "https://github.com/francapaa/multi-agents-data-ops",
           description:
-            "Plataforma DataOps impulsada por IA que transforma PRDs en contenido técnico estructurado a través de un workflow multi-agente.",
+            "Plataforma de automatización de pipelines de datos impulsada por IA con arquitectura multi-agente usando LangGraph. PRD2Blog transforma Documentos de Requisitos de Producto (PRDs) en artículos técnicos listos para publicar mediante un workflow coordinado multi-agente.",
           highlights: [
-            "Sistema multi-agente con LangGraph (researcher, writer, checker, polisher) con validación automatizada, reintentos y verificación basada en confianza.",
-            "Pipeline asíncrono con Celery y Redis, con streaming de progreso en tiempo real vía Server-Sent Events (SSE).",
+            "Sistema multi-agente con LangGraph que investiga fuentes externas, verifica consistencia factual e itera hasta cumplir umbrales de calidad.",
+            "Entrega artículos pulidos mientras rastrea uso de tokens, costos de ejecución y métricas del pipeline.",
           ],
           tech: [
+            "Next.js 16",
+            "React 19",
             "FastAPI",
-            "Next.js",
             "LangGraph",
             "PostgreSQL",
-            "Celery",
-            "Gemini API",
+            "Google Gemini",
+            "Celery + Redis",
+            "LangSmith",
           ],
+        },
+      ],
+    },
+    currentProjects: {
+      title: "Proyectos Actuales",
+      items: [
+        {
+          name: "C++ Transformer Inference Engine",
+          url: "https://github.com/Francapaa/capaa-inference-sv",
+          description:
+            "Building a Transformer-based LLM inference engine from scratch in modern C++, implementando el pipeline matemático y de sistemas completo para generación de texto autoregresiva. El proyecto incluye una librería de tensores custom, multiplicación matricial optimizada, softmax, RMSNorm, activaciones SiLU, positional embeddings (RoPE) y una implementación completa de Multi-Head Attention con KV Cache para inferencia token por token. El motor está diseñado con una arquitectura modular con memory management custom, scheduling multithread de requests, integración de tokenizer y un servidor HTTP, asemejándose a la arquitectura de sistemas de producción como llama.cpp y vLLM.",
+          highlights: [
+            "Implementando el forward pass completo de Transformers desde cero, incluyendo Multi-Head Attention, RMSNorm, RoPE, SiLU, residual connections y decoding autoregresivo.",
+            "Desarrollando una librería de tensores custom y operaciones matemáticas clave: multiplicación matricial, softmax, normalización y funciones de activación.",
+            "Diseñando un motor de inferencia con KV Cache, scheduling multithread de requests y componentes modulares inspirados en arquitecturas modernas de LLM serving.",
+            "Construyendo la infraestructura circundante: integración de tokenizer, memory management custom, worker threads y API HTTP para servir modelos.",
+            "Estructurando el proyecto para reflejar motores de inferencia reales, habilitando soporte futuro para checkpoints de Transformers preentrenados y ejecución optimizada.",
+          ],
+          tech: ["C++", "LLM Inference", "KV Cache", "Multi-Head Attention", "RoPE", "HTTP Server", "Multithreading"],
         },
       ],
     },
@@ -135,22 +156,43 @@ export const content = {
           tech: ["Next.js", "TypeScript", "Go", "PostgreSQL", "Gemini API"],
         },
         {
-          name: "Multi-Agents Data Ops",
+          name: "PRD2Blog",
           url: "https://github.com/francapaa/multi-agents-data-ops",
           description:
-            "An AI-driven DataOps platform that transforms Product Requirements Documents (PRDs) into structured technical content through a multi-agent workflow.",
+            "AI-driven data pipeline automation platform built with a multi-agent architecture using LangGraph. PRD2Blog transforms Product Requirements Documents (PRDs) into publication-ready technical blog posts using a coordinated multi-agent workflow.",
           highlights: [
-            "Built a LangGraph-based multi-agent system with researcher, writer, checker, and polisher agents, including automated validation, retries, and confidence-based verification.",
-            "Implemented asynchronous pipeline processing using Celery and Redis, with real-time progress streaming through Server-Sent Events (SSE).",
+            "Multi-agent system with LangGraph that researches external sources, verifies factual consistency, and iterates until quality thresholds are met.",
+            "Delivers polished articles while tracking token usage, execution costs, and pipeline metrics.",
           ],
           tech: [
+            "Next.js 16",
+            "React 19",
             "FastAPI",
-            "Next.js",
             "LangGraph",
             "PostgreSQL",
-            "Celery",
-            "Gemini API",
+            "Google Gemini",
+            "Celery + Redis",
+            "LangSmith",
           ],
+        },
+      ],
+    },
+    currentProjects: {
+      title: "Current Projects",
+      items: [
+        {
+          name: "C++ Transformer Inference Engine",
+          url: "https://github.com/Francapaa/capaa-inference-sv",
+          description:
+            "Building a Transformer-based LLM inference engine from scratch in modern C++, implementing the complete mathematical and systems pipeline required for autoregressive text generation. The project includes a custom tensor library, optimized matrix multiplication, softmax, RMSNorm, SiLU activations, positional embeddings (RoPE), and a full Multi-Head Attention implementation with KV Cache for efficient token-by-token inference. The engine is designed with a modular architecture featuring custom memory management, multithreaded request scheduling, tokenizer integration, and an HTTP server, closely resembling the architecture of production inference systems such as llama.cpp and vLLM.",
+          highlights: [
+            "Implementing the complete Transformer forward pass from scratch, including Multi-Head Attention, RMSNorm, RoPE, SiLU, residual connections, and autoregressive decoding.",
+            "Developing a custom tensor library and core mathematical operations such as matrix multiplication, softmax, normalization, and activation functions.",
+            "Designing an inference engine with KV Cache, multithreaded request scheduling, and modular components inspired by modern LLM serving architectures.",
+            "Building the surrounding infrastructure, including tokenizer integration, custom memory management, worker threads, and an HTTP API for model serving.",
+            "Structuring the project to closely mirror real-world inference engines, enabling future support for pretrained Transformer checkpoints and optimized execution.",
+          ],
+          tech: ["C++", "LLM Inference", "KV Cache", "Multi-Head Attention", "RoPE", "HTTP Server", "Multithreading"],
         },
       ],
     },

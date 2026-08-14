@@ -31,7 +31,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-gray-900" suppressHydrationWarning>
           &copy; {new Date().getFullYear()} Francisco Caparruva
         </p>
         <div className="flex items-center gap-4">

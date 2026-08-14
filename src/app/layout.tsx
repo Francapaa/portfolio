@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Francisco Caparruva — Software Developer",
+  title: "Francisco Caparruva — Software Engineer",
   description:
-    "Portfolio de Francisco Caparruva, Software Developer especializado en full-stack, IA y arquitecturas modernas.",
+    "Portfolio de Francisco Caparruva, Ingeniero de Software especializado en full-stack, IA y arquitecturas modernas.",
 };
 
 export default function RootLayout({

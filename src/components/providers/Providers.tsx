@@ -1,12 +1,7 @@
 "use client";
 
 import { I18nProvider } from "@/lib/i18n";
-import dynamic from "next/dynamic";
-
-const ArgentinaSky = dynamic(
-  () => import("@/components/three/ArgentinaSky"),
-  { ssr: false }
-);
+import ArgentinaSky from "@/components/three/ArgentinaSky";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

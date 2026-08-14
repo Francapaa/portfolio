@@ -12,16 +12,16 @@ export const content = {
     hero: {
       greeting: "Hola, soy",
       name: "Francisco Caparruva",
-      title: "Software Developer",
+      title: "Ingeniero de software",
       description:
-        "Desarrollador full-stack especializado en arquitecturas modernas, inteligencia artificial y experiencias de usuario de alto rendimiento.",
+        "Ingeniero de software con 1 año de experiencia, especializado en arquitecturas modernas, inteligencia artificial y experiencias de usuario de alto rendimiento.",
       cta: "Ver Proyectos",
       contact: "Contactar",
     },
     about: {
       title: "Sobre Mí",
       description:
-        "Soy un desarrollador de software apasionado por crear soluciones escalables y de alto rendimiento. Me especializo en desarrollo full-stack con foco en arquitecturas modernas, integración de IA y optimización de rendimiento. Siempre buscando aprender nuevas tecnologías y enfrentar desafíos complejos.",
+        "Soy un Ingeniero de software apasionado por crear soluciones escalables y de alto rendimiento. Me especializo en desarrollo full-stack con foco en arquitecturas modernas, integración de IA y optimización de rendimiento. Siempre buscando aprender nuevas tecnologías y enfrentar desafíos complejos.",
     },
     skills: {
       title: "Habilidades",
@@ -85,20 +85,35 @@ export const content = {
           ],
           tech: ["C++", "LLM Inference", "KV Cache", "Multi-Head Attention", "RoPE", "HTTP Server", "Multithreading"],
         },
+        {
+          name: "AccountantAI",
+          url: "https://github.com/Francapaa/accountantAI",
+          description:
+            "Asistente de IA para estudios contables que responde consultas impositivas citando siempre la normativa oficial ARCA/AFIP. RAG sobre un corpus vectorizado de normas, con contexto persistente por cliente, historial completo, multi-contador y sincronización automática de la normativa.",
+          highlights: [
+            "RAG sobre normativa oficial (ARCA/AFIP) vectorizada, con citas verificables (documento + URL) en cada respuesta.",
+            "Chatbot RAG (recuperación y generación) con Gemini 2.5 que adapta las respuestas al contexto real de cada cliente.",
+            "Bot de ingesta que corre como cron job nocturno: detecta cambios por hash y re-indexa solo lo modificado.",
+            "Espacio de trabajo por cliente con historial completo y login multi-contador con row-level security.",
+          ],
+          tech: ["Next.js", "TypeScript", "FastAPI", "Gemini 2.5", "Supabase", "pgvector", "Playwright", "RAG"],
+        },
       ],
     },
     experience: {
       title: "Experiencia",
       items: [
         {
-          role: "Software Developer",
+          role: "Ingeniero de Software",
           period: "Feb 2025 — Presente",
           company: "Freelance",
           description: [
-            "Desarrollé aplicaciones full-stack usando Next.js, Go, Node.js y Supabase.",
-            "Reduje la latencia de las aplicaciones hasta en un 85% mediante caching, SSR e indexación de base de datos.",
-            "Implementé arquitecturas en tiempo real usando WebSockets/SSE y funcionalidades RAG/LLM.",
-            "Incrementé la cobertura de tests del 15% al 80% usando Vitest y Playwright.",
+            "Reemplacé flujos de trabajo manuales heredados por un ERP centralizado que soporta más de 20 vendedores concurrentes.",
+            "Implementé bloqueo pesimista (pessimistic locking) en PostgreSQL para eliminar condiciones de carrera sobre el inventario compartido durante picos de reservas.",
+            "Construí una plataforma e-commerce B2C con trabajos cron automatizados de expiración de reservas.",
+            "Desarrollé una plataforma full-stack de alta disponibilidad que procesa más de 15.000 solicitudes diarias en los flujos de ventas, inventario y checkout.",
+            "Diseñé un chatbot RAG multi-agente (recuperación y generación) para brindar recomendaciones de productos contextuales en tiempo real.",
+            "Construí un ERP interno de cumplimiento de pedidos con analíticas de ventas personalizadas y pruebas rigurosas E2E y unitarias (Vitest, Playwright, Pytest).",
           ],
         },
       ],
@@ -121,16 +136,16 @@ export const content = {
     hero: {
       greeting: "Hi, I'm",
       name: "Francisco Caparruva",
-      title: "Software Developer",
+      title: "Software Engineer",
       description:
-        "Full-stack developer specialized in modern architectures, artificial intelligence, and high-performance user experiences.",
+        "Software Engineer with 1 year of experience, specialized in modern architectures, artificial intelligence, and high-performance user experiences.",
       cta: "View Projects",
       contact: "Contact Me",
     },
     about: {
       title: "About Me",
       description:
-        "I'm a software developer passionate about building scalable, high-performance solutions. I specialize in full-stack development with a focus on modern architectures, AI integration, and performance optimization. Always looking to learn new technologies and tackle complex challenges.",
+        "I'm a software engineer passionate about building scalable, high-performance solutions. I specialize in full-stack development with a focus on modern architectures, AI integration, and performance optimization. Always looking to learn new technologies and tackle complex challenges.",
     },
     skills: {
       title: "Skills",
@@ -194,20 +209,35 @@ export const content = {
           ],
           tech: ["C++", "LLM Inference", "KV Cache", "Multi-Head Attention", "RoPE", "HTTP Server", "Multithreading"],
         },
+        {
+          name: "AccountantAI",
+          url: "https://github.com/Francapaa/accountantAI",
+          description:
+            "AI assistant for accounting firms that answers tax questions always citing the official ARCA/AFIP regulations. RAG over a vectorized corpus of official regulations, with persistent per-client context, full history, multi-accountant, and automatic regulation sync.",
+          highlights: [
+            "RAG over official ARCA/AFIP regulations with verifiable citations (document + URL) in every answer.",
+            "RAG chatbot (retrieval & generation) with Gemini 2.5 that tailors answers to each client's real context.",
+            "Ingestion bot running as a nightly cron job: detects changes by hash and re-indexes only what changed.",
+            "Per-client workspace with full history and multi-accountant login with row-level security.",
+          ],
+          tech: ["Next.js", "TypeScript", "FastAPI", "Gemini 2.5", "Supabase", "pgvector", "Playwright", "RAG"],
+        },
       ],
     },
     experience: {
       title: "Experience",
       items: [
         {
-          role: "Software Developer",
+          role: "Software Engineer",
           period: "Feb 2025 — Present",
           company: "Freelance",
           description: [
-            "Developed full-stack applications using Next.js, Go, Node.js, and Supabase.",
-            "Reduced application latency by up to 85% through caching, SSR, and database indexing.",
-            "Implemented real-time architectures using WebSockets/SSE and RAG/LLM features.",
-            "Increased test coverage from 15% to 80% using Vitest and Playwright.",
+            "Replaced legacy manual workflows with a centralized ERP supporting 20+ concurrent sales reps.",
+            "Implemented pessimistic locking on PostgreSQL to eliminate race conditions on shared inventory during peak reservations.",
+            "Built a B2C e-commerce platform with automated reservation expiration cron jobs.",
+            "Engineered a high-availability full-stack platform processing 15,000+ daily requests across sales, inventory, and checkout flows.",
+            "Designed a multi-agent RAG chatbot (retrieval & generation) to deliver real-time, context-aware product recommendations.",
+            "Built an internal order fulfillment ERP with custom sales analytics and rigorous E2E/unit testing (Vitest, Playwright, Pytest).",
           ],
         },
       ],

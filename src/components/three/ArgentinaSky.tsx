@@ -11,7 +11,7 @@ const vertexShader = `
   }
 `;
 
-const fragmentShader = `
+const skyFragmentShader = `
   precision highp float;
   uniform float time;
   uniform vec2 resolution;
@@ -99,71 +99,180 @@ const fragmentShader = `
   }
 `;
 
+const compositeFragmentShader = `
+  precision highp float;
+  uniform sampler2D tPrev;
+  uniform sampler2D tSky;
+  uniform vec2 resolution;
+  uniform vec2 uMouse;
+  uniform vec2 uSmoothed;
+  uniform float time;
+  varying vec2 vUv;
+
+  void main() {
+    vec2 uv = vUv;
+    float aspect = resolution.x / resolution.y;
+    vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
+
+    vec2 m = uSmoothed;
+    float d = length(p - m);
+    float field = exp(-d * d * 14.0);
+
+    vec2 deltaUv = (uSmoothed - uMouse) / vec2(aspect, 1.0);
+    vec2 ripple = vec2(cos(time * 2.1), sin(time * 1.7)) * 0.003;
+
+    vec2 dragUv = uv + (deltaUv * 0.75 + ripple) * field;
+    vec4 prev = texture2D(tPrev, dragUv);
+    vec4 fresh = texture2D(tSky, uv);
+
+    float w = clamp(field * 0.45, 0.0, 1.0);
+    vec4 color = mix(fresh, prev, w);
+
+    gl_FragColor = color;
+  }
+`;
+
 export default function ArgentinaSky() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const stateRef = useRef<{
-    scene: THREE.Scene;
-    camera: THREE.OrthographicCamera;
-    renderer: THREE.WebGLRenderer;
-    uniforms: { time: { value: number }; resolution: { value: THREE.Vector2 } };
-    animId: number;
-  } | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 1;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    const pr = Math.min(window.devicePixelRatio, 2);
+    const rtSky = new THREE.WebGLRenderTarget(Math.floor(window.innerWidth * pr), Math.floor(window.innerHeight * pr), {
+      wrapS: THREE.RepeatWrapping,
+      wrapT: THREE.RepeatWrapping,
+    });
+    const rtCompositeA = new THREE.WebGLRenderTarget(Math.floor(window.innerWidth * pr), Math.floor(window.innerHeight * pr), {
+      wrapS: THREE.RepeatWrapping,
+      wrapT: THREE.RepeatWrapping,
+    });
+    const rtCompositeB = new THREE.WebGLRenderTarget(Math.floor(window.innerWidth * pr), Math.floor(window.innerHeight * pr), {
+      wrapS: THREE.RepeatWrapping,
+      wrapT: THREE.RepeatWrapping,
+    });
 
-    const uniforms = {
+    const skyUniforms = {
       time: { value: 0 },
       resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     };
-
-    const mesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(2, 2),
-      new THREE.ShaderMaterial({
-        uniforms,
-        vertexShader,
-        fragmentShader,
-      })
+    const skyScene = new THREE.Scene();
+    skyScene.add(
+      new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2),
+        new THREE.ShaderMaterial({ uniforms: skyUniforms, vertexShader, fragmentShader: skyFragmentShader })
+      )
     );
-    scene.add(mesh);
+
+    const compositeUniforms = {
+      tPrev: { value: null as THREE.Texture | null },
+      tSky: { value: null as THREE.Texture | null },
+      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      uMouse: { value: new THREE.Vector2(10, 10) },
+      uSmoothed: { value: new THREE.Vector2(10, 10) },
+      time: { value: 0 },
+    };
+    const compositeScene = new THREE.Scene();
+    compositeScene.add(
+      new THREE.Mesh(
+        new THREE.PlaneGeometry(2, 2),
+        new THREE.ShaderMaterial({ uniforms: compositeUniforms, vertexShader, fragmentShader: compositeFragmentShader })
+      )
+    );
+
+    renderer.setRenderTarget(rtCompositeA);
+    renderer.render(skyScene, camera);
+    renderer.setRenderTarget(rtCompositeB);
+    renderer.render(skyScene, camera);
+    renderer.setRenderTarget(null);
+
+    const pointerRaw = new THREE.Vector2(10, 10);
+    const pointerSmoothed = new THREE.Vector2(10, 10);
+
+    function onPointerMove(e: MouseEvent) {
+      const ww = window.innerWidth;
+      const hh = window.innerHeight;
+      const x = (e.clientX / ww - 0.5) * (ww / hh);
+      const y = 0.5 - e.clientY / hh;
+      pointerRaw.set(x, y);
+    }
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("mousemove", onPointerMove);
 
     let prevTime = performance.now();
-    let animId = 0;
+    let read = rtCompositeA;
+    let write = rtCompositeB;
 
     function animate() {
-      const now = performance.now();
-      const dt = Math.min((now - prevTime) / 1000, 0.1);
-      prevTime = now;
-      uniforms.time.value += dt;
+      try {
+        const now = performance.now();
+        const dt = Math.min((now - prevTime) / 1000, 0.1);
+        prevTime = now;
+        skyUniforms.time.value += dt;
+        compositeUniforms.time.value += dt;
 
-      renderer.render(scene, camera);
-      animId = requestAnimationFrame(animate);
+        const k = 1 - Math.exp(-dt * 5);
+        pointerSmoothed.lerp(pointerRaw, k);
+        compositeUniforms.uMouse.value.copy(pointerRaw);
+        compositeUniforms.uSmoothed.value.copy(pointerSmoothed);
+
+        renderer.setRenderTarget(rtSky);
+        renderer.render(skyScene, camera);
+
+        compositeUniforms.tPrev.value = read.texture;
+        compositeUniforms.tSky.value = rtSky.texture;
+
+        renderer.setRenderTarget(null);
+        renderer.render(compositeScene, camera);
+
+        renderer.setRenderTarget(write);
+        renderer.render(compositeScene, camera);
+        renderer.setRenderTarget(null);
+
+        const tmp = read;
+        read = write;
+        write = tmp;
+      } catch (err) {
+        console.error("[ArgentinaSky] frame error", err);
+      }
     }
 
-    stateRef.current = { scene, camera, renderer, uniforms, animId };
-    animate();
+    renderer.setAnimationLoop(animate);
 
     function onResize() {
-      uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      const ww = window.innerWidth;
+      const hh = window.innerHeight;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(ww, hh);
+      const p = Math.min(window.devicePixelRatio, 2);
+      skyUniforms.resolution.value.set(ww, hh);
+      compositeUniforms.resolution.value.set(ww, hh);
+      rtSky.setSize(Math.floor(ww * p), Math.floor(hh * p));
+      rtCompositeA.setSize(Math.floor(ww * p), Math.floor(hh * p));
+      rtCompositeB.setSize(Math.floor(ww * p), Math.floor(hh * p));
     }
     window.addEventListener("resize", onResize);
 
     return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("mousemove", onPointerMove);
       window.removeEventListener("resize", onResize);
-      cancelAnimationFrame(animId);
+      renderer.setAnimationLoop(null);
+      rtSky.dispose();
+      rtCompositeA.dispose();
+      rtCompositeB.dispose();
       renderer.dispose();
-      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement);
       }
     };
   }, []);

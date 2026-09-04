@@ -140,7 +140,7 @@ const Text3DFlip = ({
     [staggerFrom, staggerDuration]
   )
 
-  const handleHoverStart = useCallback(async () => {
+  const handleHoverEnter = useCallback(async () => {
     if (isAnimatingRef.current) return
     isAnimatingRef.current = true
 
@@ -162,14 +162,6 @@ const Text3DFlip = ({
           delay: (i: number) => delays[i],
         }
       )
-
-      if (!isMountedRef.current) return
-
-      await animate(
-        ".text-3d-flip-char",
-        { transform: "rotateX(0deg) rotateY(0deg)" },
-        { duration: 0 }
-      )
     } finally {
       if (isMountedRef.current) {
         isAnimatingRef.current = false
@@ -177,10 +169,40 @@ const Text3DFlip = ({
     }
   }, [characters, transition, getStaggerDelay, rotationTransform, animate])
 
+  const handleHoverLeave = useCallback(async () => {
+    if (isAnimatingRef.current) return
+    isAnimatingRef.current = true
+
+    try {
+      const totalChars = characters.reduce(
+        (sum, word) => sum + word.characters.length,
+        0
+      )
+
+      const delays = Array.from({ length: totalChars }, (_, i) =>
+        getStaggerDelay(i, totalChars)
+      )
+
+      await animate(
+        ".text-3d-flip-char",
+        { transform: "rotateX(0deg) rotateY(0deg)" },
+        {
+          ...transition,
+          delay: (i: number) => delays[i],
+        }
+      )
+    } finally {
+      if (isMountedRef.current) {
+        isAnimatingRef.current = false
+      }
+    }
+  }, [characters, transition, getStaggerDelay, animate])
+
   return (
     <ElementTag
       className={cn("relative flex flex-wrap", className)}
-      onMouseEnter={handleHoverStart}
+      onMouseEnter={handleHoverEnter}
+      onMouseLeave={handleHoverLeave}
       ref={scope}
       {...props}
     >

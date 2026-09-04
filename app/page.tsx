@@ -61,6 +61,21 @@ export default function Page() {
   const [scrollY, setScrollY] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const swordRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/sounds/espada-desenfundar.mp3");
+    audio.preload = "auto";
+    audio.volume = 0.6;
+    swordRef.current = audio;
+  }, []);
+
+  const playSword = useCallback(() => {
+    const a = swordRef.current;
+    if (!a) return;
+    a.currentTime = 0;
+    void a.play().catch(() => {});
+  }, []);
 
   const submit = useCallback(
     (value = input) => {
@@ -286,14 +301,16 @@ export default function Page() {
             pointerEvents: reveal > 0.85 ? "none" : "auto",
           }}
         >
-          <Text3DFlip
-            className="bg-background justify-center"
-            textClassName="bg-background text-foreground font-mono font-black text-[clamp(2.6rem,9vw,8.2rem)] leading-[0.85] tracking-[-0.07em]"
-            flipTextClassName="bg-background text-foreground font-mono font-black"
-            rotateDirection="top"
-          >
-            FRANCISCO CAPARRUVA
-          </Text3DFlip>
+          <div onMouseEnter={playSword}>
+            <Text3DFlip
+              className="bg-background justify-center"
+              textClassName="bg-background text-foreground font-mono font-black text-[clamp(2.6rem,9vw,8.2rem)] leading-[0.85] tracking-[-0.07em]"
+              flipTextClassName="bg-background text-foreground font-mono font-black"
+              rotateDirection="top"
+            >
+              FRANCISCO CAPARRUVA
+            </Text3DFlip>
+          </div>
 
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-2">
             <Text3DFlip

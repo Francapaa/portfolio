@@ -14,9 +14,10 @@ import {
 import { Keyboard } from "@/components/ui/keyboard";
 import Text3DFlip from "@/components/ui/text-3d-flip";
 import { VoiceButton } from "@/components/terminal/VoiceButton";
-import { projects, currentProjects } from "@/data/projects";
-import { experience } from "@/data/experience";
-import { education } from "@/data/education";
+import { WavyBackground } from "@/components/ui/wavy-background";
+import { projects, currentProjects, projectsEs, currentProjectsEs } from "@/data/projects";
+import { experience, experienceEs } from "@/data/experience";
+import { education, educationEs } from "@/data/education";
 import { skills } from "@/data/skills";
 
 function normalizeCommand(input: string) {
@@ -93,26 +94,26 @@ export default function Page() {
         setHistory([]);
         setInput("");
         return;
-      } else if (
-        ["proyectos", "/proyectos", "projects", "/projects"].includes(next)
-      ) {
+      } else if (["proyectos", "/proyectos"].includes(next)) {
         nextDirectory = "/proyectos";
         response = "Opening /proyectos …";
+      } else if (["projects", "/projects"].includes(next)) {
+        nextDirectory = "/projects";
+        response = "Opening /projects …";
       } else if (
-        [
-          "experiencia",
-          "/experiencia",
-          "experiencie",
-          "/experiencie",
-          "experience",
-          "/experience",
-        ].includes(next)
+        ["experiencia", "/experiencia", "experiencie", "/experiencie"].includes(
+          next
+        )
       ) {
         nextDirectory = "/experiencia";
         response = "Opening /experiencia …";
-      } else if (
-        ["education", "/education", "educacion", "/educacion"].includes(next)
-      ) {
+      } else if (["experience", "/experience"].includes(next)) {
+        nextDirectory = "/experience";
+        response = "Opening /experience …";
+      } else if (["educacion", "/educacion"].includes(next)) {
+        nextDirectory = "/educacion";
+        response = "Opening /educacion …";
+      } else if (["education", "/education"].includes(next)) {
         nextDirectory = "/education";
         response = "Opening /education …";
       } else if (command === "pwd") {
@@ -196,6 +197,35 @@ export default function Page() {
     if (directory === "/proyectos") {
       return (
         <section className="content-grid">
+          {[...projectsEs, ...currentProjectsEs].map((project) => (
+            <article className="project-card" key={project.name}>
+              <div className="card-topline">
+                <span className="eyebrow">PROYECTO</span>
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${project.name}`}
+                >
+                  <ArrowUpRight size={16} />
+                </a>
+              </div>
+              <h3>{project.name}</h3>
+              <p>{project.description}</p>
+              <div className="chips">
+                {project.tech.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </section>
+      );
+    }
+
+    if (directory === "/projects") {
+      return (
+        <section className="content-grid">
           {[...projects, ...currentProjects].map((project) => (
             <article className="project-card" key={project.name}>
               <div className="card-topline">
@@ -225,6 +255,28 @@ export default function Page() {
     if (directory === "/experiencia") {
       return (
         <section className="detail-stack">
+          {experienceEs.map((item) => (
+            <article className="experience-card" key={item.role}>
+              <div className="timeline-dot" />
+              <div>
+                <span className="eyebrow">{item.period}</span>
+                <h3>{item.role}</h3>
+                <p className="company">{item.company}</p>
+                <ul>
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </section>
+      );
+    }
+
+    if (directory === "/experience") {
+      return (
+        <section className="detail-stack">
           {experience.map((item) => (
             <article className="experience-card" key={item.role}>
               <div className="timeline-dot" />
@@ -240,6 +292,24 @@ export default function Page() {
               </div>
             </article>
           ))}
+        </section>
+      );
+    }
+
+    if (directory === "/educacion") {
+      return (
+        <section className="detail-stack">
+          <article className="education-card">
+            <span className="eyebrow">{educationEs[0].period}</span>
+            <h3>{educationEs[0].degree}</h3>
+            <p className="company">{educationEs[0].school}</p>
+            <p>{educationEs[0].detail}</p>
+            <div className="chips">
+              {skills.slice(0, 6).map((skill) => (
+                <span key={skill}>{skill}</span>
+              ))}
+            </div>
+          </article>
         </section>
       );
     }
@@ -303,9 +373,9 @@ export default function Page() {
         >
           <div onMouseEnter={playSword}>
             <Text3DFlip
-              className="bg-background justify-center"
-              textClassName="bg-background text-foreground font-mono font-black text-[clamp(2.6rem,9vw,8.2rem)] leading-[0.85] tracking-[-0.07em]"
-              flipTextClassName="bg-background text-foreground font-mono font-black"
+              className="justify-center bg-transparent"
+              textClassName="bg-transparent text-foreground font-mono font-black text-[clamp(2.6rem,9vw,8.2rem)] leading-[0.85] tracking-[-0.07em]"
+              flipTextClassName="bg-transparent text-foreground font-mono font-black"
               rotateDirection="top"
             >
               FRANCISCO CAPARRUVA
@@ -314,9 +384,9 @@ export default function Page() {
 
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-2">
             <Text3DFlip
-              className="bg-background"
-              textClassName="bg-background text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
-              flipTextClassName="bg-background text-foreground font-mono"
+              className="bg-transparent"
+              textClassName="bg-transparent text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
+              flipTextClassName="bg-transparent text-foreground font-mono"
               rotateDirection="top"
             >
               SOFTWARE ENGINEER
@@ -325,9 +395,9 @@ export default function Page() {
               /
             </span>
             <Text3DFlip
-              className="bg-background"
-              textClassName="bg-background text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
-              flipTextClassName="bg-background text-foreground font-mono"
+              className="bg-transparent"
+              textClassName="bg-transparent text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
+              flipTextClassName="bg-transparent text-foreground font-mono"
               rotateDirection="top"
             >
               AI ENGINEER
@@ -342,9 +412,23 @@ export default function Page() {
 
       <section
         className={`portfolio-room ${hasNavigated ? "has-navigation" : "terminal-only"}`}
-        style={{ opacity: Math.max(0, reveal) }}
+        style={{
+          opacity: Math.max(0, reveal),
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
-        <header className="site-header">
+        <WavyBackground
+          colors={["#0071e3", "#1e90ff", "#60a5fa", "#93c5fd", "#dbeafe"]}
+          backgroundFill="white"
+          blur={0}
+          speed="slow"
+          waveWidth={56}
+          waveOpacity={0.34}
+          containerClassName="absolute inset-0 z-0 pointer-events-none"
+          className="relative z-0"
+        />
+        <header className="site-header" style={{ position: "relative", zIndex: 1 }}>
           <div className="brand-mark">
             <span className="brand-dot" /> FC
             <span className="brand-slash">/</span> 2026
@@ -450,11 +534,13 @@ export default function Page() {
                 </h2>
               </div>
               <div className="content-icon">
-                {directory === "/proyectos" ? (
+                {directory === "/proyectos" || directory === "/projects" ? (
                   <Code2 />
-                ) : directory === "/experiencia" ? (
+                ) : directory === "/experiencia" ||
+                  directory === "/experience" ? (
                   <BriefcaseBusiness />
-                ) : directory === "/education" ? (
+                ) : directory === "/education" ||
+                  directory === "/educacion" ? (
                   <GraduationCap />
                 ) : (
                   <TerminalSquare />

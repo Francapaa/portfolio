@@ -50,11 +50,13 @@ button {
 }
 .portfolio-shell {
   min-height: 100svh;
-  background: #ffffff;
+  background: transparent;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
   background-size: 40px 40px;
+  position: relative;
+  isolation: isolate;
 }
 .opening-stage {
   position: relative;

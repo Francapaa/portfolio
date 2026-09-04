@@ -315,18 +315,18 @@ export default function Page() {
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-2">
             <Text3DFlip
               className="bg-background"
-              textClassName="bg-background text-foreground font-mono text-[11px] tracking-[0.28em] font-semibold text-muted-foreground"
+              textClassName="bg-background text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
               flipTextClassName="bg-background text-foreground font-mono"
               rotateDirection="top"
             >
               SOFTWARE ENGINEER
             </Text3DFlip>
-            <span className="hidden md:block text-muted-foreground font-mono text-[11px]">
+            <span className="hidden md:block text-muted-foreground font-mono text-[15px]">
               /
             </span>
             <Text3DFlip
               className="bg-background"
-              textClassName="bg-background text-foreground font-mono text-[11px] tracking-[0.28em] font-semibold text-muted-foreground"
+              textClassName="bg-background text-foreground font-mono text-[15px] tracking-[0.20em] font-bold text-muted-foreground"
               flipTextClassName="bg-background text-foreground font-mono"
               rotateDirection="top"
             >

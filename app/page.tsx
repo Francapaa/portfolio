@@ -15,10 +15,13 @@ import { Keyboard } from "@/components/ui/keyboard";
 import Text3DFlip from "@/components/ui/text-3d-flip";
 import { VoiceButton } from "@/components/terminal/VoiceButton";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { projects, currentProjects, projectsEs, currentProjectsEs } from "@/data/projects";
 import { experience, experienceEs } from "@/data/experience";
 import { education, educationEs } from "@/data/education";
 import { skills } from "@/data/skills";
+import { about } from "@/data/about";
+import { services } from "@/data/services";
 
 function normalizeCommand(input: string) {
   return input.trim().toLowerCase().replace(/\\/g, "/").replace(/\s+/g, " ");
@@ -51,9 +54,11 @@ export default function Page() {
   const [directory, setDirectory] = useState("~");
   const [history, setHistory] = useState<string[]>([
     "Available commands:",
-    "cd proyectos",
-    "cd experiencia",
-    "cd education",
+    "sobre mi / about me",
+    "cd servicios / cd services",
+    "cd proyectos / cd projects",
+    "cd experiencia / cd experience",
+    "cd educacion / cd education",
     "help",
     "clear",
   ]);
@@ -78,6 +83,47 @@ export default function Page() {
     void a.play().catch(() => {});
   }, []);
 
+  const shouldReduceMotion = useReducedMotion();
+
+  const gridVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.07,
+        delayChildren: shouldReduceMotion ? 0 : 0.04,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 14,
+      filter: shouldReduceMotion ? "blur(0px)" : "blur(3px)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        type: "spring" as const,
+        stiffness: 260,
+        damping: 24,
+        mass: 0.6,
+      },
+    },
+  };
+
+  const stackVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.09,
+        delayChildren: shouldReduceMotion ? 0 : 0.05,
+      },
+    },
+  };
+
   const submit = useCallback(
     (value = input) => {
       const command = normalizeCommand(value);
@@ -89,11 +135,38 @@ export default function Page() {
 
       if (command === "help") {
         response =
-          "cd proyectos · cd experiencia · cd /experiencie · cd education · cd educacion · clear";
+          "sobre mi · about me · cd servicios/services · cd proyectos/projects · cd experiencia/experience · cd educacion/education · clear";
       } else if (command === "clear") {
         setHistory([]);
         setInput("");
         return;
+      } else if (
+        ["sobre mi", "/sobre mi", "sobre-mi", "/sobre-mi"].includes(next)
+      ) {
+        nextDirectory = "/sobre-mi";
+        response = "Opening /sobre-mi …";
+      } else if (
+        [
+          "about",
+          "/about",
+          "about me",
+          "/about me",
+          "about-me",
+          "/about-me",
+        ].includes(next)
+      ) {
+        nextDirectory = "/about";
+        response = "Opening /about …";
+      } else if (
+        ["servicios", "/servicios", "servicio", "/servicio"].includes(next)
+      ) {
+        nextDirectory = "/servicios";
+        response = "Opening /servicios …";
+      } else if (
+        ["services", "/services", "service", "/service"].includes(next)
+      ) {
+        nextDirectory = "/services";
+        response = "Opening /services …";
       } else if (["proyectos", "/proyectos"].includes(next)) {
         nextDirectory = "/proyectos";
         response = "Opening /proyectos …";
@@ -196,9 +269,19 @@ export default function Page() {
   const content = useMemo(() => {
     if (directory === "/proyectos") {
       return (
-        <section className="content-grid">
+        <motion.section
+          className="content-grid"
+          variants={gridVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
           {[...projectsEs, ...currentProjectsEs].map((project) => (
-            <article className="project-card" key={project.name}>
+            <motion.article
+              variants={cardVariants}
+              className="project-card"
+              key={project.name}
+            >
               <div className="card-topline">
                 <span className="eyebrow">PROYECTO</span>
                 <a
@@ -217,17 +300,27 @@ export default function Page() {
                   <span key={item}>{item}</span>
                 ))}
               </div>
-            </article>
+              </motion.article>
           ))}
-        </section>
+        </motion.section>
       );
     }
 
     if (directory === "/projects") {
       return (
-        <section className="content-grid">
+        <motion.section
+          className="content-grid"
+          variants={gridVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
           {[...projects, ...currentProjects].map((project) => (
-            <article className="project-card" key={project.name}>
+            <motion.article
+              variants={cardVariants}
+              className="project-card"
+              key={project.name}
+            >
               <div className="card-topline">
                 <span className="eyebrow">PROJECT</span>
                 <a
@@ -246,17 +339,27 @@ export default function Page() {
                   <span key={item}>{item}</span>
                 ))}
               </div>
-            </article>
+              </motion.article>
           ))}
-        </section>
+        </motion.section>
       );
     }
 
     if (directory === "/experiencia") {
       return (
-        <section className="detail-stack">
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
           {experienceEs.map((item) => (
-            <article className="experience-card" key={item.role}>
+            <motion.article
+              variants={cardVariants}
+              className="experience-card"
+              key={item.role}
+            >
               <div className="timeline-dot" />
               <div>
                 <span className="eyebrow">{item.period}</span>
@@ -268,17 +371,27 @@ export default function Page() {
                   ))}
                 </ul>
               </div>
-            </article>
+              </motion.article>
           ))}
-        </section>
+        </motion.section>
       );
     }
 
     if (directory === "/experience") {
       return (
-        <section className="detail-stack">
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
           {experience.map((item) => (
-            <article className="experience-card" key={item.role}>
+            <motion.article
+              variants={cardVariants}
+              className="experience-card"
+              key={item.role}
+            >
               <div className="timeline-dot" />
               <div>
                 <span className="eyebrow">{item.period}</span>
@@ -290,16 +403,25 @@ export default function Page() {
                   ))}
                 </ul>
               </div>
-            </article>
+              </motion.article>
           ))}
-        </section>
+        </motion.section>
       );
     }
 
     if (directory === "/educacion") {
       return (
-        <section className="detail-stack">
-          <article className="education-card">
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="education-card"
+          >
             <span className="eyebrow">{educationEs[0].period}</span>
             <h3>{educationEs[0].degree}</h3>
             <p className="company">{educationEs[0].school}</p>
@@ -309,15 +431,24 @@ export default function Page() {
                 <span key={skill}>{skill}</span>
               ))}
             </div>
-          </article>
-        </section>
+          </motion.article>
+        </motion.section>
       );
     }
 
     if (directory === "/education") {
       return (
-        <section className="detail-stack">
-          <article className="education-card">
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="education-card"
+          >
             <span className="eyebrow">{education[0].period}</span>
             <h3>{education[0].degree}</h3>
             <p className="company">{education[0].school}</p>
@@ -327,13 +458,149 @@ export default function Page() {
                 <span key={skill}>{skill}</span>
               ))}
             </div>
-          </article>
-        </section>
+          </motion.article>
+        </motion.section>
+      );
+    }
+
+    if (directory === "/sobre-mi") {
+      return (
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="welcome-panel"
+          >
+            <span className="eyebrow">SOBRE MÍ</span>
+            {about.es.split("\n\n").map((paragraph, idx) => (
+              <p key={idx} style={{ marginTop: idx === 0 ? "16px" : "12px" }}>
+                {paragraph}
+              </p>
+            ))}
+          </motion.article>
+        </motion.section>
+      );
+    }
+
+    if (directory === "/about") {
+      return (
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="welcome-panel"
+          >
+            <span className="eyebrow">ABOUT ME</span>
+            {about.en.split("\n\n").map((paragraph, idx) => (
+              <p key={idx} style={{ marginTop: idx === 0 ? "16px" : "12px" }}>
+                {paragraph}
+              </p>
+            ))}
+          </motion.article>
+        </motion.section>
+      );
+    }
+
+    if (directory === "/servicios") {
+      return (
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="welcome-panel"
+          >
+            <span className="eyebrow">{services.es.title.toUpperCase()}</span>
+            <p style={{ marginTop: "16px" }}>{services.es.intro}</p>
+          </motion.article>
+          <motion.section
+            className="content-grid"
+            variants={gridVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            {services.es.items.map((item) => (
+              <motion.article
+                variants={cardVariants}
+                className="project-card"
+                key={item.title}
+              >
+                <div className="card-topline">
+                  <span className="eyebrow">SERVICIO</span>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </motion.article>
+            ))}
+          </motion.section>
+        </motion.section>
+      );
+    }
+
+    if (directory === "/services") {
+      return (
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="welcome-panel"
+          >
+            <span className="eyebrow">{services.en.title.toUpperCase()}</span>
+            <p style={{ marginTop: "16px" }}>{services.en.intro}</p>
+          </motion.article>
+          <motion.section
+            className="content-grid"
+            variants={gridVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            {services.en.items.map((item) => (
+              <motion.article
+                variants={cardVariants}
+                className="project-card"
+                key={item.title}
+              >
+                <div className="card-topline">
+                  <span className="eyebrow">SERVICE</span>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </motion.article>
+            ))}
+          </motion.section>
+        </motion.section>
       );
     }
 
     return (
-      <section className="welcome-panel">
+      <motion.section
+        className="welcome-panel"
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+      >
         <span className="eyebrow">ABOUT / FRANCISCO CAPARRUVA</span>
         <h2>Building systems that make complex things feel simple.</h2>
         <p>
@@ -348,7 +615,7 @@ export default function Page() {
         <a className="contact-link" href="mailto:francisco.caparruva@gmail.com">
           <Mail size={16} /> Let&apos;s talk
         </a>
-      </section>
+      </motion.section>
     );
   }, [directory]);
 
@@ -542,12 +809,26 @@ export default function Page() {
                 ) : directory === "/education" ||
                   directory === "/educacion" ? (
                   <GraduationCap />
+                ) : directory === "/servicios" || directory === "/services" ? (
+                  <Command />
+                ) : directory === "/sobre-mi" || directory === "/about" ? (
+                  <Mail />
                 ) : (
                   <TerminalSquare />
                 )}
               </div>
             </div>
-            {content}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={directory}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18 }}
+              >
+                {content}
+              </motion.div>
+            </AnimatePresence>
           </section>
         </div>
 

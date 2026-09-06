@@ -129,8 +129,7 @@ button {
   transition: opacity 0.2s linear;
 }
 .portfolio-room.terminal-only .site-header,
-.portfolio-room.terminal-only .content-column,
-.portfolio-room.terminal-only .site-footer {
+.portfolio-room.terminal-only .content-column {
   display: none;
 }
 .portfolio-room.terminal-only .workspace {

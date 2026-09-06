@@ -7,15 +7,19 @@ import {
   BriefcaseBusiness,
   Code2,
   Command,
+  Github,
   GraduationCap,
+  Linkedin,
   Mail,
   TerminalSquare,
+  Twitter,
 } from "lucide-react";
 import { Keyboard } from "@/components/ui/keyboard";
 import Text3DFlip from "@/components/ui/text-3d-flip";
 import { VoiceButton } from "@/components/terminal/VoiceButton";
 import { WavyBackground } from "@/components/ui/wavy-background";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { GithubContributions } from "@/components/github/GithubContributions";
 import { projects, currentProjects, projectsEs, currentProjectsEs } from "@/data/projects";
 import { experience, experienceEs } from "@/data/experience";
 import { education, educationEs } from "@/data/education";
@@ -59,6 +63,7 @@ export default function Page() {
     "cd proyectos / cd projects",
     "cd experiencia / cd experience",
     "cd educacion / cd education",
+    "cd github / github",
     "help",
     "clear",
   ]);
@@ -135,7 +140,7 @@ export default function Page() {
 
       if (command === "help") {
         response =
-          "sobre mi · about me · cd servicios/services · cd proyectos/projects · cd experiencia/experience · cd educacion/education · clear";
+          "sobre mi · about me · cd servicios/services · cd proyectos/projects · cd experiencia/experience · cd educacion/education · cd github/github · clear";
       } else if (command === "clear") {
         setHistory([]);
         setInput("");
@@ -189,6 +194,20 @@ export default function Page() {
       } else if (["education", "/education"].includes(next)) {
         nextDirectory = "/education";
         response = "Opening /education …";
+      } else if (
+        [
+          "github",
+          "/github",
+          "contributions",
+          "/contributions",
+          "gh",
+          "/gh",
+          "contribs",
+          "/contribs",
+        ].includes(next)
+      ) {
+        nextDirectory = "/github";
+        response = "Opening /github …";
       } else if (command === "pwd") {
         response = directory;
       }
@@ -609,6 +628,45 @@ export default function Page() {
       );
     }
 
+    if (directory === "/github") {
+      return (
+        <motion.section
+          className="detail-stack"
+          variants={stackVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          <motion.article
+            variants={cardVariants}
+            className="welcome-panel"
+          >
+            <span className="eyebrow">GITHUB</span>
+            <h2 style={{ marginTop: "8px" }} className="text-[18px] font-semibold tracking-[-0.04em]">
+              github.com/francapaa
+            </h2>
+            <p
+              className="text-muted-foreground text-[13px] leading-[1.65]"
+              style={{ marginTop: "10px" }}
+            >
+              Contribuciones en los últimos 12 meses. Paleta adaptada a tu portfolio.
+            </p>
+            <div style={{ marginTop: "16px" }}>
+              <GithubContributions />
+            </div>
+            <a
+              href="https://github.com/francapaa"
+              target="_blank"
+              rel="noreferrer"
+              className="contact-link"
+            >
+              <Github size={16} /> Ver perfil
+            </a>
+          </motion.article>
+        </motion.section>
+      );
+    }
+
     return (
       <motion.section
         className="welcome-panel"
@@ -827,6 +885,8 @@ export default function Page() {
                   <Command />
                 ) : directory === "/sobre-mi" || directory === "/about" ? (
                   <Mail />
+                ) : directory === "/github" ? (
+                  <Github />
                 ) : (
                   <TerminalSquare />
                 )}
@@ -845,14 +905,49 @@ export default function Page() {
             </AnimatePresence>
           </section>
         </div>
-
-        <footer className="site-footer">
-          <span>© 2026 Francisco Caparruva</span>
-          <span>
-            crafted in Buenos Aires <span className="footer-line" />
-          </span>
-        </footer>
       </section>
+      <footer className="site-footer">
+        <span>© 2026 Francisco Caparruva</span>
+        <div className="flex items-center gap-3.5">
+          <a
+            href="https://www.linkedin.com/in/francisco-caparruva/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Linkedin size={16} />
+          </a>
+          <a
+            href="https://github.com/francapaa"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Github size={16} />
+          </a>
+          <a
+            href="mailto:caparruvafrancisco@gmail.com"
+            aria-label="Email"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Mail size={16} />
+          </a>
+          <a
+            href="https://x.com/FCapaa"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="X"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Twitter size={16} />
+          </a>
+        </div>
+        <span>
+          crafted in Buenos Aires <span className="footer-line" />
+        </span>
+      </footer>
     </main>
   );
 }

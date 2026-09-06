@@ -64,7 +64,7 @@ export default function Page() {
   ]);
   const [sound, setSound] = useState(true);
   const [hasNavigated, setHasNavigated] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [entered, setEntered] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const swordRef = useRef<HTMLAudioElement | null>(null);
@@ -246,25 +246,41 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    // Fix: evitar que el navegador restaure scroll o el autoFocus arrastre abajo al recargar
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
-    setScrollY(0);
-    // Quitar foco si el navegador enfocó el input automáticamente
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+  const handleEnter = useCallback(() => {
+    setEntered(true);
+    requestAnimationFrame(() => {
+      document
+        .querySelector(".portfolio-room")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }, []);
 
-  const reveal = Math.min(1, scrollY / 520);
+  useEffect(() => {
+    const root = document.documentElement;
+    const body = document.body;
+    if (!entered) {
+      root.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      root.style.overflow = "";
+      body.style.overflow = "";
+    }
+    return () => {
+      root.style.overflow = "";
+      body.style.overflow = "";
+    };
+  }, [entered]);
+
+  const reveal = entered ? 1 : 0;
 
   const content = useMemo(() => {
     if (directory === "/proyectos") {
@@ -622,22 +638,13 @@ export default function Page() {
   return (
     <main className="portfolio-shell" onClick={() => inputRef.current?.focus()}>
       <section
-        className="opening-stage"
+        className="opening-stage cursor-pointer"
         aria-label="Francisco Caparruva portfolio introduction"
+        onClick={handleEnter}
       >
         <div className="stage-grain" />
-        <div
-          className="hero-3d-wrap flex flex-col items-center justify-center gap-4 px-4"
-          style={{
-            opacity: 1 - reveal * 1.15,
-            transform: `translateY(${-reveal * 18}px) scale(${1 - reveal * 0.04})`,
-            filter: `blur(${reveal * 3.5}px)`,
-            transition:
-              "opacity 0.12s linear, transform 0.12s linear, filter 0.12s linear",
-            willChange: "opacity, transform, filter",
-            pointerEvents: reveal > 0.85 ? "none" : "auto",
-          }}
-        >
+        <div className="hero-3d-wrap flex flex-col items-center justify-center gap-4 px-4">
+
           <div onMouseEnter={playSword}>
             <Text3DFlip
               className="justify-center bg-transparent"
@@ -671,9 +678,16 @@ export default function Page() {
             </Text3DFlip>
           </div>
 
-          <span className="scroll-cue mt-8">
-            SCROLL TO ENTER <span>↓</span>
-          </span>
+          <button
+            className="scroll-cue mt-8 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEnter();
+            }}
+            aria-label="Enter portfolio"
+          >
+            CLICK TO ENTER <span>↓</span>
+          </button>
         </div>
       </section>
 

@@ -3,9 +3,34 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://franciscocaparruva.com'),
   title: 'Francisco Caparruva — Software Engineer',
-  description: 'Portfolio of Francisco Caparruva, software engineer and AI builder crafting interfaces, infrastructure, and intelligent systems.',
+  description: 'Ingeniero de Software | AI Engineer',
   generator: 'v0.app',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Francisco Caparruva — Software Engineer',
+    description: 'Ingeniero de Software | AI Engineer',
+    url: '/',
+    type: 'website',
+    siteName: 'Francisco Caparruva Portfolio',
+    images: [
+      {
+        url: '/Fran.png',
+        width: 1200,
+        height: 630,
+        alt: 'Francisco Caparruva — Software Engineer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Francisco Caparruva — Software Engineer',
+    description: 'Ingeniero de Software | AI Engineer',
+    images: ['/Fran.png'],
+  },
   icons: {
     icon: [
       {

@@ -1,14 +1,13 @@
 export const skills = [
   "TypeScript",
-  "React",
-  "Next.js",
-  "Go",
-  "C++",
   "Python",
+  "C++",
+  "Go",
+  "Gin",
+  "Next.js",
   "FastAPI",
-  "PostgreSQL",
-  "Supabase",
   "LangGraph",
-  "RAG",
-  "Docker",
+  "PostgreSQL",
+  "AWS",
+  "Vercel AI SDK"
 ] as const;

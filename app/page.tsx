@@ -374,7 +374,7 @@ export default function Page() {
             <motion.article
               variants={cardVariants}
               className="experience-card"
-              key={item.role}
+              key={`${item.company}-${item.period}`}
             >
               <div className="timeline-dot" />
               <div>
@@ -406,7 +406,7 @@ export default function Page() {
             <motion.article
               variants={cardVariants}
               className="experience-card"
-              key={item.role}
+              key={`${item.company}-${item.period}`}
             >
               <div className="timeline-dot" />
               <div>
@@ -434,20 +434,23 @@ export default function Page() {
           animate="visible"
           exit="hidden"
         >
-          <motion.article
-            variants={cardVariants}
-            className="education-card"
-          >
-            <span className="eyebrow">{educationEs[0].period}</span>
-            <h3>{educationEs[0].degree}</h3>
-            <p className="company">{educationEs[0].school}</p>
-            <p>{educationEs[0].detail}</p>
-            <div className="chips">
-              {skills.slice(0, 6).map((skill) => (
-                <span key={skill}>{skill}</span>
-              ))}
-            </div>
-          </motion.article>
+          {educationEs.map((item) => (
+            <motion.article
+              variants={cardVariants}
+              className="education-card"
+              key={`${item.school}-${item.period}`}
+            >
+              <span className="eyebrow">{item.period}</span>
+              <h3>{item.degree}</h3>
+              <p className="company">{item.school}</p>
+              <p>{item.detail}</p>
+              <div className="chips">
+                {skills.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </div>
+            </motion.article>
+          ))}
         </motion.section>
       );
     }
@@ -461,20 +464,23 @@ export default function Page() {
           animate="visible"
           exit="hidden"
         >
-          <motion.article
-            variants={cardVariants}
-            className="education-card"
-          >
-            <span className="eyebrow">{education[0].period}</span>
-            <h3>{education[0].degree}</h3>
-            <p className="company">{education[0].school}</p>
-            <p>{education[0].detail}</p>
-            <div className="chips">
-              {skills.slice(0, 6).map((skill) => (
-                <span key={skill}>{skill}</span>
-              ))}
-            </div>
-          </motion.article>
+          {education.map((item) => (
+            <motion.article
+              variants={cardVariants}
+              className="education-card"
+              key={`${item.school}-${item.period}`}
+            >
+              <span className="eyebrow">{item.period}</span>
+              <h3>{item.degree}</h3>
+              <p className="company">{item.school}</p>
+              <p>{item.detail}</p>
+              <div className="chips">
+                {skills.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </div>
+            </motion.article>
+          ))}
         </motion.section>
       );
     }

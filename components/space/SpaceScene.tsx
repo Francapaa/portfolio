@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import type { MutableRefObject } from "react";
+import * as THREE from "three";
 import type { ShipInput } from "@/hooks/useShipControls";
 import { STATIONS } from "@/lib/stations";
 import { Galaxy } from "./Galaxy";
@@ -36,11 +37,18 @@ export function SpaceScene({ inputRef, controlsEnabled }: SpaceSceneProps) {
   return (
     <Canvas
       className="space-canvas"
-      dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
-      camera={{ position: [0, 4, 20], fov: 55, near: 0.1, far: 200 }}
+      dpr={[1, 2]}
+      gl={{
+        antialias: true,
+        alpha: false,
+        powerPreference: "high-performance",
+        toneMapping: THREE.ACESFilmicToneMapping,
+      }}
+      camera={{ position: [0, 3.5, 24], fov: 50, near: 0.1, far: 200 }}
       onCreated={({ gl }) => {
-        gl.setClearColor("#030712");
+        gl.setClearColor("#0a0604");
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.15;
         const canvas = gl.domElement;
         const onContextLost = (e: Event) => {
           e.preventDefault();

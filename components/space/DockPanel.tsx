@@ -13,34 +13,39 @@ export function DockPanel() {
   return (
     <AnimatePresence>
       {dockedId && station && (
-        <motion.aside
-          className="dock-panel"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ type: "spring", stiffness: 280, damping: 28 }}
-          role="dialog"
-          aria-label={station.label[lang]}
-        >
-          <header className="dock-panel-header">
-            <div>
-              <p className="eyebrow">{lang === "es" ? "ESTACIÓN" : "STATION"}</p>
-              <h2>{station.label[lang]}</h2>
+        <div className="dock-overlay" role="presentation">
+          <motion.aside
+            className="dock-panel"
+            initial={{ opacity: 0, scale: 0.94, y: 18 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+            transition={{ type: "spring", stiffness: 280, damping: 28 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={station.label[lang]}
+          >
+            <header className="dock-panel-header">
+              <div>
+                <p className="eyebrow">
+                  {lang === "es" ? "ESTACIÓN" : "STATION"}
+                </p>
+                <h2>{station.label[lang]}</h2>
+              </div>
+              <button
+                type="button"
+                className="dock-close"
+                onClick={undock}
+                aria-label={lang === "es" ? "Desacoplar" : "Undock"}
+              >
+                <X size={18} />
+                <span>{lang === "es" ? "Despegar" : "Undock"}</span>
+              </button>
+            </header>
+            <div className="dock-panel-body">
+              <StationContent stationId={dockedId} lang={lang} />
             </div>
-            <button
-              type="button"
-              className="dock-close"
-              onClick={undock}
-              aria-label={lang === "es" ? "Desacoplar" : "Undock"}
-            >
-              <X size={18} />
-              <span>{lang === "es" ? "Despegar" : "Undock"}</span>
-            </button>
-          </header>
-          <div className="dock-panel-body">
-            <StationContent stationId={dockedId} lang={lang} />
-          </div>
-        </motion.aside>
+          </motion.aside>
+        </div>
       )}
     </AnimatePresence>
   );

@@ -18,17 +18,17 @@
 
 :root {
   color-scheme: dark;
-  --background: #030712;
-  --foreground: #e8f6f4;
-  --card: rgba(8, 20, 32, 0.82);
-  --card-foreground: #e8f6f4;
-  --primary: #5eead4;
-  --primary-foreground: #042f2e;
-  --muted-foreground: #94b8b4;
-  --border: rgba(94, 234, 212, 0.22);
-  --accent-warm: #fbbf24;
-  --deep: #030712;
-  --panel: rgba(6, 16, 28, 0.88);
+  --background: #0a0604;
+  --foreground: #fff7ed;
+  --card: rgba(28, 14, 8, 0.88);
+  --card-foreground: #fff7ed;
+  --primary: #f97316;
+  --primary-foreground: #1c0a05;
+  --muted-foreground: #d6b5a0;
+  --border: rgba(251, 146, 60, 0.28);
+  --accent-warm: #fdba74;
+  --deep: #0a0604;
+  --panel: rgba(18, 8, 4, 0.92);
   --radius: 1rem;
 }
 
@@ -77,9 +77,9 @@ button {
 
 .space-canvas-fallback {
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(13, 148, 136, 0.35), transparent 55%),
-    radial-gradient(ellipse at 70% 80%, rgba(8, 145, 178, 0.25), transparent 50%),
-    #030712;
+    radial-gradient(ellipse at 30% 20%, rgba(234, 88, 12, 0.35), transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(194, 65, 12, 0.28), transparent 50%),
+    #0a0604;
 }
 
 /* ——— Launch hero ——— */
@@ -97,9 +97,9 @@ button {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(15, 118, 110, 0.45), transparent 70%),
-    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(251, 191, 36, 0.12), transparent 60%),
-    linear-gradient(180deg, rgba(3, 7, 18, 0.55) 0%, rgba(3, 7, 18, 0.82) 100%);
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(234, 88, 12, 0.42), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(251, 191, 36, 0.16), transparent 60%),
+    linear-gradient(180deg, rgba(10, 6, 4, 0.5) 0%, rgba(10, 6, 4, 0.84) 100%);
   pointer-events: none;
 }
 
@@ -134,7 +134,7 @@ button {
   font-size: clamp(3.2rem, 11vw, 7.5rem);
   line-height: 0.92;
   letter-spacing: -0.04em;
-  color: #f0fdfa;
+  color: #fff7ed;
   text-wrap: balance;
 }
 
@@ -148,9 +148,9 @@ button {
 
 .launch-cta {
   margin-top: 2.2rem;
-  border: 1px solid rgba(94, 234, 212, 0.55);
-  background: linear-gradient(135deg, #14b8a6 0%, #0e7490 100%);
-  color: #042f2e;
+  border: 1px solid rgba(251, 146, 60, 0.65);
+  background: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #c2410c 100%);
+  color: #1c0a05;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.95rem;
@@ -159,36 +159,36 @@ button {
   padding: 0.95rem 2.4rem;
   border-radius: 999px;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
-    0 12px 40px rgba(20, 184, 166, 0.35);
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 12px 40px rgba(234, 88, 12, 0.4);
   transition: box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .launch-cta:hover {
   filter: brightness(1.06);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.12) inset,
-    0 16px 48px rgba(20, 184, 166, 0.45);
+    0 0 0 1px rgba(255, 255, 255, 0.14) inset,
+    0 16px 48px rgba(234, 88, 12, 0.5);
 }
 
 /* ——— Station HTML labels ——— */
 .station-label {
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 999px;
-  background: rgba(3, 7, 18, 0.72);
-  border: 1px solid rgba(94, 234, 212, 0.35);
-  color: #ccfbf1;
-  font-size: 0.7rem;
+  background: rgba(12, 6, 4, 0.78);
+  border: 1px solid rgba(251, 146, 60, 0.45);
+  color: #ffedd5;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
   backdrop-filter: blur(8px);
-  transform: translateY(-1.5rem);
 }
 
 .station-label.is-docked {
-  border-color: var(--accent-warm);
-  color: #fef3c7;
+  border-color: #fdba74;
+  color: #fff7ed;
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.35);
 }
 
 /* ——— Flight HUD ——— */
@@ -229,7 +229,7 @@ button {
   display: grid;
   place-items: center;
   border-radius: 0.55rem;
-  background: rgba(94, 234, 212, 0.12);
+  background: rgba(249, 115, 22, 0.14);
   border: 1px solid var(--border);
   font-family: var(--font-display);
   font-weight: 700;
@@ -304,7 +304,7 @@ button {
   text-align: left;
   border: 0;
   background: transparent;
-  color: #d1fae5;
+  color: #ffedd5;
   font-size: 0.82rem;
   padding: 0.4rem 0.35rem;
   border-radius: 0.5rem;
@@ -312,7 +312,19 @@ button {
 
 .hud-radar button:hover,
 .hud-radar button.is-active {
-  background: rgba(94, 234, 212, 0.1);
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.space-shell.is-docked .hud-radar,
+.space-shell.is-docked .hud-hints,
+.space-shell.is-docked .virtual-stick {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.space-shell.is-docked .hud-radar {
+  pointer-events: auto;
+  opacity: 0.9;
 }
 
 .radar-dot {
@@ -359,8 +371,8 @@ button {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: rgba(94, 234, 212, 0.55);
-  box-shadow: 0 0 18px rgba(94, 234, 212, 0.35);
+  background: rgba(249, 115, 22, 0.65);
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.4);
   pointer-events: none;
 }
 
@@ -373,22 +385,36 @@ button {
   }
 }
 
-/* ——— Dock panel ——— */
-.dock-panel {
+/* ——— Dock panel (centered) ——— */
+.dock-overlay {
   position: fixed;
+  inset: 0;
   z-index: 30;
-  left: 50%;
-  bottom: 1.25rem;
-  transform: translateX(-50%);
-  width: min(920px, calc(100vw - 1.5rem));
-  max-height: min(58svh, 560px);
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 48%,
+    rgba(10, 6, 4, 0.55),
+    rgba(10, 6, 4, 0.18) 55%,
+    transparent 75%
+  );
+}
+
+.dock-panel {
+  pointer-events: auto;
+  width: min(880px, calc(100vw - 2rem));
+  max-height: min(78svh, 720px);
   display: flex;
   flex-direction: column;
-  border-radius: 1.25rem;
+  border-radius: 1.35rem;
   background: var(--panel);
   border: 1px solid var(--border);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 0 1px rgba(255, 247, 237, 0.04) inset,
+    0 28px 90px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(20px);
   overflow: hidden;
 }
 
@@ -413,8 +439,8 @@ button {
   align-items: center;
   gap: 0.4rem;
   border: 1px solid var(--border);
-  background: rgba(94, 234, 212, 0.08);
-  color: var(--primary);
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--accent-warm);
   border-radius: 999px;
   padding: 0.45rem 0.85rem;
   font-size: 0.75rem;
@@ -424,7 +450,7 @@ button {
 }
 
 .dock-panel-body {
-  padding: 1rem 1.15rem 1.25rem;
+  padding: 1.1rem 1.25rem 1.35rem;
   overflow: auto;
 }
 
@@ -458,7 +484,7 @@ button {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
   font-size: 1.15rem;
-  color: #f0fdfa;
+  color: #fff7ed;
 }
 
 .welcome-panel h2 {
@@ -502,8 +528,8 @@ button {
   padding: 0.25rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--border);
-  color: #99f6e4;
-  background: rgba(94, 234, 212, 0.06);
+  color: #fdba74;
+  background: rgba(249, 115, 22, 0.08);
 }
 
 .experience-card {
@@ -518,11 +544,11 @@ button {
   margin-top: 0.45rem;
   border-radius: 50%;
   background: var(--primary);
-  box-shadow: 0 0 12px rgba(94, 234, 212, 0.6);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.65);
 }
 
 .company {
-  color: #5eead4 !important;
+  color: #fb923c !important;
   font-weight: 600;
   margin-bottom: 0.45rem !important;
 }
@@ -553,7 +579,7 @@ button {
   min-height: 100svh;
   padding: 1.25rem;
   background:
-    radial-gradient(ellipse at top, rgba(13, 148, 136, 0.2), transparent 50%),
+    radial-gradient(ellipse at top, rgba(234, 88, 12, 0.22), transparent 50%),
     var(--deep);
 }
 
@@ -598,9 +624,15 @@ button {
 }
 
 @media (max-width: 720px) {
+  .dock-overlay {
+    padding: 0.75rem;
+    align-items: end;
+    padding-bottom: 0.85rem;
+  }
+
   .dock-panel {
-    max-height: min(62svh, 640px);
-    bottom: 0.65rem;
+    max-height: min(72svh, 680px);
+    width: min(100%, calc(100vw - 1.2rem));
   }
 
   .hud-radar {
@@ -608,6 +640,10 @@ button {
     bottom: 8.5rem;
     right: 1rem;
     width: min(200px, 55vw);
+  }
+
+  .space-shell.is-docked .hud-radar {
+    display: none;
   }
 
   .launch-brand {

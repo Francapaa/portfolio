@@ -27,7 +27,7 @@ function SpaceShell() {
   const { input, setStick, resetStick } = useShipControls(controlsOn);
 
   return (
-    <div className="space-shell">
+    <div className={`space-shell ${dockedId ? "is-docked" : ""}`}>
       {!webglFailed && (
         <div className="space-stage" aria-hidden={reducedMotion}>
           <SpaceCanvas inputRef={input} controlsEnabled={controlsOn} />

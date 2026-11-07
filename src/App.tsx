@@ -187,6 +187,115 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const page = root.current;
+    const progress = page?.querySelector<HTMLElement>(".scroll-progress-fill");
+    if (!page || !progress) return;
+
+    const atmosphere = document.documentElement;
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: page,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.15,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    timeline
+      .fromTo(
+        atmosphere,
+        {
+          "--base-r": 16,
+          "--base-g": 16,
+          "--base-b": 16,
+          "--ambient-x": "76%",
+          "--ambient-y": "12%",
+          "--ambient-glow": 0.17,
+          "--ember-x": "13%",
+          "--ember-y": "77%",
+          "--ember-glow": 0.06,
+          "--ambient-scale": 1,
+        },
+        {
+          "--base-r": 22,
+          "--base-g": 14,
+          "--base-b": 11,
+          "--ambient-x": "24%",
+          "--ambient-y": "58%",
+          "--ambient-glow": 0.26,
+          "--ember-x": "88%",
+          "--ember-y": "27%",
+          "--ember-glow": 0.12,
+          "--ambient-scale": 1.12,
+          duration: 0.34,
+          ease: "none",
+        },
+        0.22,
+      )
+      .to(
+        atmosphere,
+        {
+          "--base-r": 18,
+          "--base-g": 16,
+          "--base-b": 14,
+          "--ambient-x": "81%",
+          "--ambient-y": "54%",
+          "--ambient-glow": 0.19,
+          "--ember-x": "14%",
+          "--ember-y": "40%",
+          "--ember-glow": 0.09,
+          "--ambient-scale": 1.05,
+          duration: 0.32,
+          ease: "none",
+        },
+        0.56,
+      )
+      .to(
+        atmosphere,
+        {
+          "--base-r": 28,
+          "--base-g": 15,
+          "--base-b": 9,
+          "--ambient-x": "47%",
+          "--ambient-y": "89%",
+          "--ambient-glow": 0.3,
+          "--ember-x": "84%",
+          "--ember-y": "75%",
+          "--ember-glow": 0.17,
+          "--ambient-scale": 1.2,
+          duration: 0.22,
+          ease: "none",
+        },
+        0.84,
+      )
+      .fromTo(
+        progress,
+        { scaleY: 0 },
+        { scaleY: 1, duration: 1, ease: "none" },
+        0,
+      );
+
+    return () => {
+      timeline.scrollTrigger?.kill();
+      timeline.kill();
+      gsap.set(atmosphere, {
+        "--base-r": 16,
+        "--base-g": 16,
+        "--base-b": 16,
+        "--ambient-x": "76%",
+        "--ambient-y": "12%",
+        "--ambient-glow": 0.17,
+        "--ember-x": "13%",
+        "--ember-y": "77%",
+        "--ember-glow": 0.06,
+        "--ambient-scale": 1,
+      });
+      gsap.set(progress, { scaleY: 0 });
+    };
+  }, []);
+
+  useEffect(() => {
     if (!notice) return;
     const timer = window.setTimeout(() => setNotice(""), 4500);
     return () => window.clearTimeout(timer);
@@ -215,6 +324,15 @@ export default function App() {
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
+      <div className="scroll-progress" aria-hidden="true">
+        <span>
+          SCROLL
+          <br />/ 01—03
+        </span>
+        <div className="scroll-progress-track">
+          <span className="scroll-progress-fill" />
+        </div>
+      </div>
       <header className="site-header">
         <a href="#top" className="wordmark" aria-label={t.home}>
           <span className="brand-symbol">

@@ -21,3 +21,7 @@ La escultura usa solo geometría e iluminación locales; no descarga modelos ni 
 ## Publicación
 
 Frontend estático sin backend ni base de datos. La configuración de WebDev usa un build reproducible y `dist` como directorio de salida. Guardar un checkpoint y publicar son acciones separadas. La web puede probarse desde Preview antes de publicar.
+
+## Fondo atmosférico
+
+El fondo cambia gradualmente de carbón a óxido/cobre mientras se recorre la página. Halos radiales desplazados y un indicador de progreso lateral siguen el scroll; una trama técnica de bajo contraste aporta textura sin interferir con la lectura. En móvil los halos y el indicador se ajustan para mantener la superficie ligera y no cubrir el texto.

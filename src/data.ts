@@ -58,7 +58,7 @@ export const experienceEs: readonly ExperienceEntry[] = [
     period: "May 2026 — Sep 2026",
     bullets: [
       "Definí la arquitectura de la plataforma para habilitar la venta por internet, integrando Mercado Pago (cobros), Contabilium (ERP), Cron Jobs, ARCA (facturación electrónica) y Correo Argentino (envíos).",
-      "Desarrollé un sistema de revendedores que permite vender con el stock físico del cliente, integrado con Tiendanube y Mercado Libre.",
+      "Desarrollé un sistema de revendedores que permite vender con el stock físico del cliente, en el propio sistema creas tu pagina web o la conectas con Mercado Libre.",
     ],
   },
   {
@@ -192,7 +192,7 @@ export const skills = [
   "AWS",
   "Vercel AI SDK",
   "Pytorch",
-  "TensorFlow"
+  "TensorFlow",
   "Vercel"
 ] as const;
 
@@ -271,7 +271,7 @@ export const copy = {
     skillsLabel: "Tecnologías",
     educationLabel: "Educación",
     expTitle: "Experiencia",
-    expAccent: "en producción.",
+    expAccent: "",
     expIntro:
       "",
     details: "Ver detalles",
@@ -314,7 +314,7 @@ export const copy = {
     skillsLabel: "Skills",
     educationLabel: "Education",
     expTitle: "Experience",
-    expAccent: "in production.",
+    expAccent: "",
     expIntro:
       "Freelancing since I was 18. Every one of these was a system in production, not a demo.",
     details: "View details",

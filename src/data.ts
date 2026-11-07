@@ -191,6 +191,9 @@ export const skills = [
   "PostgreSQL",
   "AWS",
   "Vercel AI SDK",
+  "Pytorch",
+  "TensorFlow"
+  "Vercel"
 ] as const;
 
 export const about = {
@@ -206,7 +209,7 @@ export const services = {
   es: {
     title: "Servicios",
     intro:
-      "Creo flujos de trabajo autónomos con human-in-the-loop: mínima intervención humana, máxima continuidad. Diseño, automatizo y pongo en producción lo que hoy te cuesta tiempo y clientes.",
+      "",
     items: [
       {
         title: "Flujos de Trabajo Autónomos",
@@ -217,8 +220,8 @@ export const services = {
         desc: "Conecto tus herramientas para que los datos se muevan solos. Sin copiar/pegar, sin errores, sin esperar a nadie.",
       },
       {
-        title: "Chatbots RAG",
-        desc: "Asistentes que responden con tu propia información, entendiendo el contexto y el historial de cada conversación.",
+        title: "Agentes de IA",
+        desc: "Agentes que realmente hacen algo, realizan tareas, te potencian y te dejan concentrarte en lo realmente importante",
       },
       {
         title: "Software a Medida y Aplicaciones Web + Observabilidad Total",
@@ -236,8 +239,8 @@ export const services = {
         desc: "Self-running processes that only need your sign-off when it matters. You decide, the system runs.",
       },
       {
-        title: "Custom Automations",
-        desc: "I connect your tools so data moves on its own. No copy-paste, no errors, no waiting.",
+        title: "AI Agents",
+        desc: "I build agents who really do something, perform tasks, empower you and let you focus on what's really important ",
       },
       {
         title: "RAG Chatbots",
@@ -270,14 +273,14 @@ export const copy = {
     expTitle: "Experiencia",
     expAccent: "en producción.",
     expIntro:
-      "Trabajo freelance desde los 18. Cada uno de estos fue un sistema en producción, no una demo.",
+      "",
     details: "Ver detalles",
     hide: "Cerrar detalles",
     responsibilities: "Responsabilidades",
     projectsTitle: "Proyectos",
     projectsAccent: "que construí.",
     projectsIntro:
-      "Herramientas propias y sistemas que diseñé, desarrollé y puse en producción.",
+      "",
     featuredLabel: "Destacados",
     currentLabel: "En desarrollo",
     servicesTitle: "Servicios",
@@ -286,7 +289,7 @@ export const copy = {
       "Escribime y conversamos sobre tu proyecto, una integración o lo que necesites automatizar.",
     contactCta: "Escribime",
     footer: "© 2026 Francisco Caparruva",
-    footerTagline: "Construido con React, TypeScript y Three.js.",
+    footerTagline: "With love <3",
     top: "Volver arriba",
     pause: "Pausar animaciones",
     play: "Activar animaciones",

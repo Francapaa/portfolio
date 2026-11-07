@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from "react";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Asterisk,
@@ -178,8 +177,7 @@ export default function App() {
 
   useEffect(() => {
     const page = root.current;
-    const progress = page?.querySelector<HTMLElement>(".scroll-progress-fill");
-    if (!page || !progress) return;
+    if (!page) return;
 
     const atmosphere = document.documentElement;
     const timeline = gsap.timeline({
@@ -258,12 +256,6 @@ export default function App() {
           ease: "none",
         },
         0.82,
-      )
-      .fromTo(
-        progress,
-        { scaleY: 0 },
-        { scaleY: 1, duration: 1, ease: "none" },
-        0,
       );
 
     return () => {
@@ -281,7 +273,6 @@ export default function App() {
         "--ember-glow": 0.09,
         "--ambient-scale": 1,
       });
-      gsap.set(progress, { scaleY: 0 });
     };
   }, []);
 
@@ -297,15 +288,6 @@ export default function App() {
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
-      <div className="scroll-progress" aria-hidden="true">
-        <span>
-          SCROLL
-          <br />/ 01—05
-        </span>
-        <div className="scroll-progress-track">
-          <span className="scroll-progress-fill" />
-        </div>
-      </div>
       <header className="site-header">
         <a href="#top" className="wordmark" aria-label={t.home}>
           <span className="brand-symbol">
@@ -422,32 +404,10 @@ export default function App() {
             <span id="scene-help" className="sr-only">
               {t.keyboard}
             </span>
-            <div className="drag-hint">
-              <span className="drag-orbit">
-                <Plus size={12} />
-              </span>
-              {t.drag}
-            </div>
-          </div>
-          <div className="hero-bottom hero-enter">
-            <a href="#about" className="scroll-link">
-              <span className="circle-arrow">
-                <ArrowDown size={15} />
-              </span>
-              {t.scroll}
-            </a>
-            <span className="hero-bottom-note">
-              <span className="tiny-dot" />
-              {t.available}
-            </span>
           </div>
         </section>
 
         <section id="about" className="section about-section">
-          <div className="section-kicker reveal">
-            <span>{t.aboutKicker}</span>
-            <Asterisk size={21} />
-          </div>
           <div className="about-layout">
             <div className="about-heading reveal">
               <h2>{t.aboutTitle}</h2>
@@ -486,10 +446,6 @@ export default function App() {
         </section>
 
         <section id="experience" className="section experience-section">
-          <div className="section-kicker reveal">
-            <span>{t.expKicker}</span>
-            <span className="kicker-end">2025 — 2026</span>
-          </div>
           <div className="section-heading reveal">
             <h2>
               {t.expTitle}
@@ -557,24 +513,9 @@ export default function App() {
               );
             })}
           </div>
-          <div className="metrics reveal">
-            {t.metricValues.map((metric, index) => (
-              <div className="metric" key={metric}>
-                <span className="metric-value">
-                  {metric}
-                  <span className="metric-marker">↗</span>
-                </span>
-                <span className="metric-label">{t.metricLabels[index]}</span>
-              </div>
-            ))}
-          </div>
         </section>
 
         <section id="projects" className="section projects-section">
-          <div className="section-kicker reveal">
-            <span>{t.projectsKicker}</span>
-            <Asterisk size={21} />
-          </div>
           <div className="section-heading reveal">
             <h2>
               {t.projectsTitle}
@@ -636,10 +577,6 @@ export default function App() {
         </section>
 
         <section id="services" className="section services-section">
-          <div className="section-kicker reveal">
-            <span>{t.servicesKicker}</span>
-            <span className="tiny-dot" />
-          </div>
           <div className="section-heading reveal">
             <h2>{t.servicesTitle}</h2>
             <p>{serviceData.intro}</p>
@@ -656,10 +593,6 @@ export default function App() {
         </section>
 
         <section id="contact" className="section contact-section">
-          <div className="section-kicker reveal">
-            <span>{t.contactKicker}</span>
-            <span className="tiny-dot" />
-          </div>
           <div className="contact-layout reveal">
             <div>
               <h2>

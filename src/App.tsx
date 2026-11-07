@@ -12,36 +12,41 @@ import {
   ArrowRight,
   ArrowUpRight,
   Asterisk,
-  Box,
-  Check,
   Code2,
+  ExternalLink,
   Github,
+  GraduationCap,
   Linkedin,
+  Mail,
   Menu,
-  MoveUpRight,
   Pause,
   Play,
   Plus,
-  ShieldCheck,
   X,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
+  about,
   copy,
+  currentProjects,
+  currentProjectsEs,
+  education,
+  educationEs,
   experience,
   experienceEs,
-  projectMeta,
+  projects,
+  projectsEs,
+  services,
+  skills,
   type Language,
 } from "./data";
-import { defaultProfile, type Profile } from "./profile";
-import ProfileDialog from "./components/ProfileDialog";
+import { profile } from "./profile";
+import Cursor from "./components/Cursor";
 
 const Scene = lazy(() => import("./components/Scene"));
 gsap.registerPlugin(ScrollTrigger);
-const sections = ["experience", "approach", "contact"];
-const sculptureFallback =
-  "/manus-storage/async-images/ZeBbH80sMMDQdmQUf9FF47/image-1.webp";
+const sections = ["about", "experience", "projects", "services", "contact"];
 
 class SceneBoundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -65,22 +70,6 @@ function readStored<T>(key: string, fallback: T): T {
   }
 }
 
-function getProfile(): Profile {
-  const stored = readStored<Partial<Profile>>("orbfolio-profile", {});
-  const safe = { ...defaultProfile };
-  for (const key of ["name", "email", "github", "linkedin"] as const) {
-    if (typeof stored?.[key] === "string") safe[key] = stored[key]!;
-  }
-  for (const key of ["github", "linkedin"] as const) {
-    try {
-      if (safe[key] && new URL(safe[key]).protocol !== "https:") safe[key] = "";
-    } catch {
-      safe[key] = "";
-    }
-  }
-  return safe;
-}
-
 export default function App() {
   const [lang, setLang] = useState<Language>(() =>
     readStored<Language>("orbfolio-language", "es") === "en" ? "en" : "es",
@@ -93,13 +82,14 @@ export default function App() {
   const [active, setActive] = useState("");
   const [expanded, setExpanded] = useState<number | null>(0);
   const [sceneVisible, setSceneVisible] = useState(true);
-  const [profile, setProfile] = useState<Profile>(getProfile);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [notice, setNotice] = useState("");
   const root = useRef<HTMLDivElement>(null);
   const paused = userPaused || reduced;
   const t = copy[lang];
   const entries = lang === "es" ? experienceEs : experience;
+  const projectEntries = lang === "es" ? projectsEs : projects;
+  const currentEntries = lang === "es" ? currentProjectsEs : currentProjects;
+  const educationEntries = lang === "es" ? educationEs : education;
+  const serviceData = services[lang];
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -111,7 +101,7 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dataset.motion = paused ? "reduced" : "full";
-    document.title = `${profile.name || "Software Developer"} — Portfolio`;
+    document.title = `${profile.name} — Portfolio`;
     try {
       localStorage.setItem("orbfolio-language", JSON.stringify(lang));
     } catch {
@@ -157,7 +147,7 @@ export default function App() {
       });
     }, root);
     return () => context.revert();
-  }, [lang, paused, profile.name]);
+  }, [lang, paused]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -206,68 +196,68 @@ export default function App() {
       .fromTo(
         atmosphere,
         {
-          "--base-r": 16,
-          "--base-g": 16,
-          "--base-b": 16,
-          "--ambient-x": "76%",
+          "--base-r": 15,
+          "--base-g": 15,
+          "--base-b": 15,
+          "--ambient-x": "78%",
           "--ambient-y": "12%",
-          "--ambient-glow": 0.17,
-          "--ember-x": "13%",
-          "--ember-y": "77%",
-          "--ember-glow": 0.06,
+          "--ambient-glow": 0.22,
+          "--ember-x": "12%",
+          "--ember-y": "78%",
+          "--ember-glow": 0.09,
           "--ambient-scale": 1,
         },
         {
-          "--base-r": 22,
-          "--base-g": 14,
+          "--base-r": 38,
+          "--base-g": 17,
           "--base-b": 11,
           "--ambient-x": "24%",
           "--ambient-y": "58%",
-          "--ambient-glow": 0.26,
+          "--ambient-glow": 0.34,
           "--ember-x": "88%",
-          "--ember-y": "27%",
-          "--ember-glow": 0.12,
+          "--ember-y": "26%",
+          "--ember-glow": 0.16,
           "--ambient-scale": 1.12,
           duration: 0.34,
           ease: "none",
         },
-        0.22,
+        0.2,
       )
       .to(
         atmosphere,
         {
-          "--base-r": 18,
-          "--base-g": 16,
-          "--base-b": 14,
-          "--ambient-x": "81%",
-          "--ambient-y": "54%",
-          "--ambient-glow": 0.19,
+          "--base-r": 52,
+          "--base-g": 20,
+          "--base-b": 10,
+          "--ambient-x": "82%",
+          "--ambient-y": "50%",
+          "--ambient-glow": 0.28,
           "--ember-x": "14%",
           "--ember-y": "40%",
-          "--ember-glow": 0.09,
-          "--ambient-scale": 1.05,
+          "--ember-glow": 0.13,
+          "--ambient-scale": 1.06,
           duration: 0.32,
           ease: "none",
         },
-        0.56,
+        0.5,
       )
       .to(
         atmosphere,
         {
-          "--base-r": 28,
-          "--base-g": 15,
+          "--base-r": 30,
+          "--base-g": 13,
           "--base-b": 9,
-          "--ambient-x": "47%",
-          "--ambient-y": "89%",
-          "--ambient-glow": 0.3,
-          "--ember-x": "84%",
-          "--ember-y": "75%",
-          "--ember-glow": 0.17,
+          "--ambient-x": "46%",
+          "--ambient-y": "88%",
+          "--ambient-glow": 0.38,
+          "--ember-x": "82%",
+          "--ember-y": "74%",
+          "--ember-glow": 0.2,
           "--ambient-scale": 1.2,
-          duration: 0.22,
+          duration: 0.3,
           ease: "none",
         },
-        0.84,
+        0.82,
       )
       .fromTo(
         progress,
@@ -280,43 +270,26 @@ export default function App() {
       timeline.scrollTrigger?.kill();
       timeline.kill();
       gsap.set(atmosphere, {
-        "--base-r": 16,
-        "--base-g": 16,
-        "--base-b": 16,
-        "--ambient-x": "76%",
+        "--base-r": 15,
+        "--base-g": 15,
+        "--base-b": 15,
+        "--ambient-x": "78%",
         "--ambient-y": "12%",
-        "--ambient-glow": 0.17,
-        "--ember-x": "13%",
-        "--ember-y": "77%",
-        "--ember-glow": 0.06,
+        "--ambient-glow": 0.22,
+        "--ember-x": "12%",
+        "--ember-y": "78%",
+        "--ember-glow": 0.09,
         "--ambient-scale": 1,
       });
       gsap.set(progress, { scaleY: 0 });
     };
   }, []);
 
-  useEffect(() => {
-    if (!notice) return;
-    const timer = window.setTimeout(() => setNotice(""), 4500);
-    return () => window.clearTimeout(timer);
-  }, [notice]);
-
-  function saveProfile(next: Profile) {
-    setProfile(next);
-    try {
-      localStorage.setItem("orbfolio-profile", JSON.stringify(next));
-      setNotice(t.saved);
-    } catch {
-      setNotice(
-        lang === "es"
-          ? "Datos aplicados temporalmente. El navegador no permite guardarlos."
-          : "Details applied temporarily. Browser storage is unavailable.",
-      );
-    }
-  }
-
-  const fallback = (
-    <img className="sculpture-fallback" src={sculptureFallback} alt="" />
+  const sceneFallback = (
+    <div className="scene-placeholder">
+      <Code2 size={34} strokeWidth={1} />
+      <span>{t.loading}</span>
+    </div>
   );
 
   return (
@@ -327,7 +300,7 @@ export default function App() {
       <div className="scroll-progress" aria-hidden="true">
         <span>
           SCROLL
-          <br />/ 01—03
+          <br />/ 01—05
         </span>
         <div className="scroll-progress-track">
           <span className="scroll-progress-fill" />
@@ -338,16 +311,11 @@ export default function App() {
           <span className="brand-symbol">
             <Code2 size={27} strokeWidth={2.1} />
           </span>
-          <span>
-            {profile.name || t.brand}
-            <span className="brand-dot">.</span>
-          </span>
+          <span>{t.brand}</span>
         </a>
         <nav
           className={`main-nav ${menuOpen ? "is-open" : ""}`}
-          aria-label={
-            lang === "es" ? "Navegación principal" : "Main navigation"
-          }
+          aria-label={lang === "es" ? "Navegación principal" : "Main navigation"}
         >
           {t.nav.map((label, index) => (
             <a
@@ -357,7 +325,6 @@ export default function App() {
               onClick={() => setMenuOpen(false)}
             >
               {label}
-              {index === 2 && <ArrowUpRight size={14} />}
             </a>
           ))}
         </nav>
@@ -385,15 +352,7 @@ export default function App() {
           <button
             className="icon-button motion-control"
             disabled={reduced}
-            title={
-              reduced
-                ? lang === "es"
-                  ? "Movimiento reducido según las preferencias del sistema"
-                  : "Reduced motion follows your system preferences"
-                : paused
-                  ? t.play
-                  : t.pause
-            }
+            title={reduced ? t.keyboard : paused ? t.play : t.pause}
             aria-label={paused ? t.play : t.pause}
             aria-pressed={paused}
             onClick={() => setUserPaused(!userPaused)}
@@ -418,7 +377,7 @@ export default function App() {
               <span className="tiny-dot" />
               {t.eyebrow}
             </div>
-            <h1 aria-label={t.headline.join(" ")}>
+            <h1 aria-label={t.brand}>
               {t.headline.map((line, index) => (
                 <span
                   className={`hero-line ${index > 0 ? "orange-text" : ""}`}
@@ -426,7 +385,7 @@ export default function App() {
                 >
                   <span aria-hidden="true">
                     {line}
-                    {index === 2 && (
+                    {index === 1 && (
                       <Asterisk
                         className="headline-asterisk"
                         strokeWidth={1.5}
@@ -442,93 +401,102 @@ export default function App() {
                 {t.cta}
                 <ArrowUpRight size={18} />
               </a>
-              <a className="text-link" href="#approach">
+              <a className="text-link" href="#projects">
                 {t.secondary}
                 <ArrowRight size={16} />
               </a>
             </div>
           </div>
-          <div
-            className="hero-visual"
-            role="group"
-            aria-label={t.sculptureTitle}
-          >
+          <div className="hero-visual" role="group" aria-label={t.role}>
             <div className="scene-wrap">
-              <SceneBoundary fallback={fallback}>
-                <Suspense
-                  fallback={
-                    <div className="scene-placeholder">
-                      <Box size={34} strokeWidth={1} />
-                      <span>{t.loading}</span>
-                    </div>
-                  }
-                >
+              <SceneBoundary fallback={sceneFallback}>
+                <Suspense fallback={sceneFallback}>
                   <Scene
                     paused={paused || !sceneVisible}
-                    label={t.sculptureTitle}
+                    label={lang === "es" ? "Escena 3D" : "3D scene"}
                     helpId="scene-help"
                   />
                 </Suspense>
               </SceneBoundary>
             </div>
             <span id="scene-help" className="sr-only">
-              {t.sculptureHelp}
+              {t.keyboard}
             </span>
-            <span className="visual-coordinate coordinate-left">
-              X. 035
-              <br />
-              Y. 072
-            </span>
-            <span className="visual-coordinate coordinate-right">
-              <Plus size={12} /> Z. 001
-            </span>
-            <div className="visual-caption">
-              <span className="tiny-dot" />
-              <span>{t.sculpture}</span>
-            </div>
             <div className="drag-hint">
               <span className="drag-orbit">
-                <MoveUpRight size={12} />
+                <Plus size={12} />
               </span>
               {t.drag}
             </div>
           </div>
           <div className="hero-bottom hero-enter">
-            <a href="#experience" className="scroll-link">
+            <a href="#about" className="scroll-link">
               <span className="circle-arrow">
                 <ArrowDown size={15} />
               </span>
               {t.scroll}
             </a>
             <span className="hero-bottom-note">
-              {t.craft}
-              <span className="mini-cross">+</span>
+              <span className="tiny-dot" />
+              {t.available}
             </span>
           </div>
         </section>
 
-        <div className="specialty-strip" aria-label={t.craft}>
-          {t.specialties.map((item, index) => (
-            <div key={item}>
-              <span className="specialty-number">0{index + 1}</span>
-              <span>{item}</span>
-              <Asterisk size={25} strokeWidth={1.2} />
+        <section id="about" className="section about-section">
+          <div className="section-kicker reveal">
+            <span>{t.aboutKicker}</span>
+            <Asterisk size={21} />
+          </div>
+          <div className="about-layout">
+            <div className="about-heading reveal">
+              <h2>{t.aboutTitle}</h2>
+              <div className="skill-cloud">
+                <span className="eyebrow">{t.skillsLabel}</span>
+                <div className="skill-tags">
+                  {skills.map((skill) => (
+                    <span key={skill}>{skill}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+            <div className="about-body reveal">
+              {about[lang]
+                .split("\n\n")
+                .map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="education-block">
+                <span className="eyebrow">{t.educationLabel}</span>
+                <ul>
+                  {educationEntries.map((entry) => (
+                    <li key={entry.degree}>
+                      <GraduationCap size={18} />
+                      <div>
+                        <span className="education-degree">{entry.degree}</span>
+                        <span className="education-school">
+                          {entry.school}
+                        </span>
+                        <span className="education-period">{entry.period}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section id="experience" className="section experience-section">
           <div className="section-kicker reveal">
-            <span>01 / {t.expLabel}</span>
+            <span>{t.expKicker}</span>
             <span className="kicker-end">2025 — 2026</span>
           </div>
           <div className="section-heading reveal">
             <h2>
-              {t.experience}
+              {t.expTitle}
               <br />
-              <span className="muted-heading">{t.experienceAccent}</span>
+              <span className="muted-heading">{t.expAccent}</span>
             </h2>
-            <p>{t.experienceIntro}</p>
+            <p>{t.expIntro}</p>
           </div>
           <div className="experience-list">
             {entries.map((entry, index) => {
@@ -536,7 +504,7 @@ export default function App() {
               return (
                 <article
                   className={`experience-item reveal ${isOpen ? "is-open" : ""}`}
-                  key={projectMeta[index].name}
+                  key={entry.company}
                 >
                   <button
                     className="experience-trigger"
@@ -547,7 +515,7 @@ export default function App() {
                     <span className="experience-index">0{index + 1}</span>
                     <span className="experience-identity">
                       <span className="experience-company">
-                        {projectMeta[index].name}
+                        {entry.company.split("—")[0].trim()}
                         <ArrowUpRight size={22} />
                       </span>
                       <span className="experience-role">
@@ -582,11 +550,6 @@ export default function App() {
                             {bullet}
                           </p>
                         ))}
-                        <div className="tool-tags">
-                          {projectMeta[index].tools.map((tool) => (
-                            <span key={tool}>{tool}</span>
-                          ))}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -596,7 +559,7 @@ export default function App() {
           </div>
           <div className="metrics reveal">
             {t.metricValues.map((metric, index) => (
-              <div className="metric" key={index}>
+              <div className="metric" key={metric}>
                 <span className="metric-value">
                   {metric}
                   <span className="metric-marker">↗</span>
@@ -607,53 +570,94 @@ export default function App() {
           </div>
         </section>
 
-        <section id="approach" className="section approach-section">
+        <section id="projects" className="section projects-section">
           <div className="section-kicker reveal">
-            <span>02 / {t.focusLabel}</span>
+            <span>{t.projectsKicker}</span>
             <Asterisk size={21} />
           </div>
-          <div className="approach-layout">
-            <div className="approach-intro reveal">
-              <h2>{t.focusTitle}</h2>
-              <p>{t.focusIntro}</p>
-              <div className="approach-mark" aria-hidden="true">
-                <Code2 size={85} strokeWidth={0.8} />
-                <span>
-                  {t.workflow[0]}
-                  <br />
-                  {t.workflow[1]}
-                  <br />
-                  {t.workflow[2]}
-                </span>
-              </div>
-            </div>
-            <div className="approach-items">
-              {t.focusItems.map((item, index) => (
-                <article className="approach-item reveal" key={index}>
-                  <span className="approach-icon">
-                    {index === 0 ? (
-                      <Box size={22} />
-                    ) : index === 1 ? (
-                      <ShieldCheck size={22} />
-                    ) : (
-                      <Check size={22} />
-                    )}
+          <div className="section-heading reveal">
+            <h2>
+              {t.projectsTitle}
+              <br />
+              <span className="muted-heading">{t.projectsAccent}</span>
+            </h2>
+            <p>{t.projectsIntro}</p>
+          </div>
+          <div className="project-group">
+            <span className="group-label reveal">{t.featuredLabel}</span>
+            <div className="project-grid">
+              {projectEntries.map((project) => (
+                <a
+                  className="project-card reveal"
+                  key={project.name}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="project-topline">
+                    <span className="project-name">{project.name}</span>
+                    <ExternalLink size={18} />
                   </span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                    <span className="approach-tools">{item.tags}</span>
-                  </div>
-                  <span className="approach-index">/ 0{index + 1}</span>
-                </article>
+                  <p>{project.description}</p>
+                  <span className="project-tech">
+                    {project.tech.map((tech) => (
+                      <span key={tech}>{tech}</span>
+                    ))}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="project-group">
+            <span className="group-label reveal">{t.currentLabel}</span>
+            <div className="project-grid">
+              {currentEntries.map((project) => (
+                <a
+                  className="project-card reveal"
+                  key={project.name}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="project-topline">
+                    <span className="project-name">{project.name}</span>
+                    <ExternalLink size={18} />
+                  </span>
+                  <p>{project.description}</p>
+                  <span className="project-tech">
+                    {project.tech.map((tech) => (
+                      <span key={tech}>{tech}</span>
+                    ))}
+                  </span>
+                </a>
               ))}
             </div>
           </div>
         </section>
 
+        <section id="services" className="section services-section">
+          <div className="section-kicker reveal">
+            <span>{t.servicesKicker}</span>
+            <span className="tiny-dot" />
+          </div>
+          <div className="section-heading reveal">
+            <h2>{t.servicesTitle}</h2>
+            <p>{serviceData.intro}</p>
+          </div>
+          <div className="services-list">
+            {serviceData.items.map((item, index) => (
+              <article className="service-item reveal" key={item.title}>
+                <span className="service-index">/ 0{index + 1}</span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section id="contact" className="section contact-section">
           <div className="section-kicker reveal">
-            <span>03 / {t.contactLabel}</span>
+            <span>{t.contactKicker}</span>
             <span className="tiny-dot" />
           </div>
           <div className="contact-layout reveal">
@@ -665,92 +669,52 @@ export default function App() {
               </h2>
               <p>{t.contactIntro}</p>
             </div>
-            {profile.email ? (
-              <a
-                className="contact-circle"
-                href={`mailto:${encodeURIComponent(profile.email)}`}
-                aria-label={t.contactCta}
-              >
-                <ArrowUpRight size={56} strokeWidth={1} />
-              </a>
-            ) : (
-              <button
-                className="contact-circle"
-                onClick={() => setSettingsOpen(true)}
-                aria-label={t.configure}
-              >
-                <ArrowUpRight size={56} strokeWidth={1} />
-              </button>
-            )}
+            <a
+              className="contact-circle"
+              href={`mailto:${profile.email}`}
+              aria-label={t.contactCta}
+            >
+              <ArrowUpRight size={56} strokeWidth={1} />
+            </a>
           </div>
           <div className="contact-bottom reveal">
             <div className="contact-links">
-              {profile.email ? (
-                <a href={`mailto:${encodeURIComponent(profile.email)}`}>
-                  {profile.email}
-                  <ArrowUpRight size={15} />
-                </a>
-              ) : (
-                <span className="contact-pending">{t.contactMissing}</span>
-              )}
-              {profile.github && (
-                <a
-                  href={profile.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github size={16} />
-                  GitHub
-                  <ArrowUpRight size={14} />
-                </a>
-              )}
-              {profile.linkedin && (
-                <a
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin size={16} />
-                  LinkedIn
-                  <ArrowUpRight size={14} />
-                </a>
-              )}
+              <a href={`mailto:${profile.email}`}>
+                <Mail size={16} />
+                {profile.email}
+              </a>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github size={16} />
+                GitHub
+                <ArrowUpRight size={14} />
+              </a>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin size={16} />
+                LinkedIn
+                <ArrowUpRight size={14} />
+              </a>
             </div>
-            <button
-              className="settings-link"
-              onClick={() => setSettingsOpen(true)}
-            >
-              {t.configure}
-              <ArrowUpRight size={14} />
-            </button>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <span>
-          © {new Date().getFullYear()} {profile.name || `${t.brand}.`}
-        </span>
         <span>{t.footer}</span>
+        <span>{t.footerTagline}</span>
         <a href="#top">
           {t.top}
           <ArrowUpRight size={14} />
         </a>
       </footer>
-      {settingsOpen && (
-        <ProfileDialog
-          lang={lang}
-          profile={profile}
-          onSave={saveProfile}
-          onClose={() => setSettingsOpen(false)}
-        />
-      )}
-      {notice && (
-        <div className="toast" role="status">
-          <Check size={17} />
-          {notice}
-        </div>
-      )}
+      <Cursor />
     </div>
   );
 }

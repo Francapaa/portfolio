@@ -101,7 +101,7 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dataset.motion = paused ? "reduced" : "full";
-    document.title = `${profile.name} — Portfolio`;
+    document.title = `${profile.name} — Software Engineer`;
     try {
       localStorage.setItem("orbfolio-language", JSON.stringify(lang));
     } catch {

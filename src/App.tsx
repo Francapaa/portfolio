@@ -460,7 +460,7 @@ export default function App() {
               return (
                 <article
                   className={`experience-item reveal ${isOpen ? "is-open" : ""}`}
-                  key={entry.company}
+                  key={index}
                 >
                   <button
                     className="experience-trigger"
@@ -471,13 +471,15 @@ export default function App() {
                     <span className="experience-index">0{index + 1}</span>
                     <span className="experience-identity">
                       <span className="experience-company">
-                        {entry.company.split("—")[0].trim()}
+                        {entry.company
+                          ? entry.company.split("—")[0].trim()
+                          : entry.role}
                         <ArrowUpRight size={22} />
                       </span>
                       <span className="experience-role">
                         {entry.role}
-                        <span className="role-divider">/</span>Freelance ·
-                        Argentina
+                        <span className="role-divider">/</span>
+                        {entry.location ?? "Freelance · Argentina"}
                       </span>
                     </span>
                     <span className="experience-period">{entry.period}</span>
@@ -497,7 +499,9 @@ export default function App() {
                     <div className="experience-detail-inner">
                       <div className="detail-side">
                         <span className="eyebrow">{t.responsibilities}</span>
-                        <span className="detail-company">{entry.company}</span>
+                        <span className="detail-company">
+                          {entry.company || entry.location}
+                        </span>
                       </div>
                       <div className="experience-bullets">
                         {entry.bullets.map((bullet) => (

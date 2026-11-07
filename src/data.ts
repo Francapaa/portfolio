@@ -3,6 +3,7 @@ export type Language = "es" | "en";
 export interface ExperienceEntry {
   role: string;
   company: string;
+  location?: string;
   period: string;
   bullets: readonly string[];
 }
@@ -22,6 +23,17 @@ export interface EducationEntry {
 }
 
 export const experience: readonly ExperienceEntry[] = [
+  {
+    role: "Product Engineer",
+    company: "",
+    location: "Chacarita, CABA, Argentina",
+    period: "Oct 2026 — Present",
+    bullets: [
+      "I build the product end to end: from idea to code and into production.",
+      "I talk to clients and users to validate what to build and what to skip.",
+      "I test the software and measure whether it gains traction to decide how to iterate.",
+    ],
+  },
   {
     role: "Software Developer",
     company: "Damiano Bazar Argentina — Freelance",
@@ -52,6 +64,17 @@ export const experience: readonly ExperienceEntry[] = [
 ];
 
 export const experienceEs: readonly ExperienceEntry[] = [
+  {
+    role: "Product Engineer",
+    company: "",
+    location: "Chacarita, CABA, Argentina",
+    period: "Oct 2026 — Presente",
+    bullets: [
+      "Construyo el producto de punta a punta: de la idea al código y a producción.",
+      "Hablo con clientes y usuarios para validar qué construir y qué no.",
+      "Pruebo el software y mido si tracciona para decidir cómo iterar.",
+    ],
+  },
   {
     role: "Desarrollador de software",
     company: "Damiano Bazar Argentina — Freelance",
